@@ -1,0 +1,30 @@
+<!--pages/doubleroom/photoList/photoList.wxml-->
+<view class="body-view">
+    <view class="listTitle">
+        <text>{{licenseNo}}</text>
+    </view>
+    <view class="photoBox">
+
+        <view class="photoItem" wx:for-index="idx" id="{{idx}}" bindtap="showBigPhoto" wx:key="{{item.photoMiniPath}}" wx:for="{{showPhotoList}}">
+            <view class="photoView">
+                <image class="photoImg" src="{{item.photoMiniPath}}"></image>
+            </view>
+            <view class="photoInfo">
+                <text>{{item.photoType}}</text>
+            </view>
+        </view>
+
+    </view>
+</view>
+
+<view class="swipeWrap" wx-if="{{bigPhotoShowFlag}}">
+    <swiper current="{{currentIndex}}">
+        <view wx:key="{{item.photoPath}}" wx:for-index="idx" wx:for="{{showPhotoList}}" bindtap="hideBigPhoto">
+            <swiper-item>
+                <text class="photoText" style="color:#fff;">{{item.photoType}}</text>
+                <image mode="widthFix" src="{{item.photoPath}}" class="slide-image"/>
+                <text class="numText">{{idx+1}}/{{showPhotoList.length}}</text>
+            </swiper-item>
+        </view>
+    </swiper>
+</view>

@@ -1,0 +1,17 @@
+{
+	"client": "./wechat",
+	"svr": "./server",
+	"miniprogramRoot": "./wechat",
+	"qcloudRoot": "./server",
+	"appid": "wx65a8c950e465b808",
+	"projectname": "wechat1.0.0",
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true
+	},
+	"libVersion": "1.9.93",
+	"condition": {}
+}

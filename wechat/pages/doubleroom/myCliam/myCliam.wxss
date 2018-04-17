@@ -1,0 +1,83 @@
+/* pages/doubleroom/selfCliam/selfCliam.wxss */
+.body-view{
+    background:#FFF;
+}
+.h50{
+    height: 50rpx;
+}
+.cliamItem{
+    padding-bottom:40rpx;
+    width:750rpx;
+    background:#fff;
+}
+.timeBlock{
+    line-height:36rpx;
+    color:#fff;
+    text-align:center;
+    margin-bottom:22rpx;
+}
+.timeBlock text{
+    font-size:24rpx;
+    color:#fff;
+    display:inline-block;
+    padding:0 14rpx;
+    background:#cccccc;
+    border-radius:36rpx;
+}
+.cliamItemContent text{
+    font-size:28rpx;
+    line-height:50rpx;
+    color:#333;
+
+}
+.cliamItemContent{
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    padding:0 28rpx;
+
+}
+.borderShadowBox{
+
+    -webkit-box-sizing:border-box;
+    box-sizing:border-box;
+    padding:30rpx 30rpx 26rpx 30rpx;
+    -webkit-border-radius:30rpx;
+    border-radius:30rpx;
+    box-shadow:0 0 20px #ccc;
+    position:relative;
+}
+.cliamStatus{
+    position:absolute;
+    right:0rpx;
+    top:29rpx;
+    z-index:3;
+    height:40rpx;
+    line-height:32rpx;
+    padding:0rpx 10rpx 0rpx 21rpx;
+    text-align:right;
+    -webkit-border-radius:20rpx 0 0 20rpx;
+    border-radius:20rpx 0 0 20rpx;
+}
+.color06{
+    background-color:#ff9c00;
+}
+.color07{
+    background-color:#01c66c;
+}
+.color08{
+    background-color:#ff7171;
+}
+.color11{
+    background-color:#01c66c;
+}
+.cliamItemContent .cliamStatus text.statusText{
+    color:#fff;
+    font-size:22rpx;
+    line-height:32rpx;
+    display:inline-block;
+}
+.bottom{
+    text-align: center;
+    font-size:28rpx;
+    color:#ccc;
+}

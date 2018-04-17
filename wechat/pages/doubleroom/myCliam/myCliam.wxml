@@ -1,0 +1,37 @@
+<!--pages/doubleroom/selfCliam/selfCliam.wxml-->
+
+<view class="body-view">
+    <scroll-view class="scrollBox" style="height:{{windowHeight}}px;" scroll-y="true" bindscroll="scroll" bindscrolltolower="loadMore">
+
+        <view class="h50"></view>
+         <view class="cliamItem" data-status="{{item.surveyOrderStatus}}" wx:key="surveyOrderNo" wx:for="{{cliamList}}" bindtap='gotolink' id="{{item.surveyOrderNo}}">
+            <view class="timeBlock">
+                <text>事故时间：{{item.accidentTime}}</text>
+            </view>
+            <view class="cliamItemContent">
+                <view class="borderShadowBox">
+                    <view>
+                        <text>报案车牌号：</text><text>{{item.reporterLicenseNumber}}</text>
+                    </view>
+                    <view>
+                        <text>报案人姓名：</text><text>{{item.reporterName}}</text>
+                    </view>
+                    <view>
+                        <text>报案人手机号：</text><text>{{item.reporterPhoneNumber}}</text>
+                    </view>
+                    <view>
+                        <text>事故地点：</text><text>{{item.accidentLocation}}</text>
+                    </view>
+                    <view class="cliamStatus {{classObj[item.surveyOrderStatus]}}">
+                        <text class="statusText">{{statusObj[item.surveyOrderStatus]}}</text>
+                    </view>
+                </view>
+            </view>
+         </view>
+    </scroll-view>
+    <view class="bottom" hidden="{{hideBottom}}">
+        <view>{{loadMoreData}}</view>
+        <view>{{refreshTime}}</view>
+    </view>
+</view>
+

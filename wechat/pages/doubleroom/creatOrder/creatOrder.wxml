@@ -1,0 +1,35 @@
+<!--pages/doubleroom/creatOrder/creatOrder.wxml-->
+<view class='input-wrap'>
+  <view class='input-box'>
+       <text class="input-word">报案人手机号</text>
+       <input class="input-theme" type='text' bindblur="phoneChang" placeholder='请输入报案人手机号'/>
+       <view class="both"></view>
+  </view>
+  <view class='input-box'>
+       <text class="input-word">保险公司</text>
+       <view class="img-wrap" bindtap='selectChang'>
+          <image class='graph'  wx:if="{{selectState}}"  src='../../Resources/upward.png'></image>
+          <image class='graph'  wx:if="{{!selectState}}" src='../../Resources/downward.png'></image>
+       </view>
+       <view class="input-theme person-box">
+          <view class="default-price" wx:if="{{!selectValue}}"> 请选择保险公司 </view>
+          <view class="person-box-word"> {{selectValue}} </view>
+          <!-- <view class="phone_select" hidden="{{!selectState}}" bindtap="selectClick">
+            <view wx:for="{{insuranceCompanys}}" class="select_one" bindtap="mySelect" data-code="{{item.code}}" data-me="{{item.fullName}}">{{item.fullName}}
+            </view>
+          </view> -->
+       </view>
+       <view class="both"></view>
+  </view>
+ <view class="select_wrap" hidden="{{!selectState}}"> 
+ </view> 
+   <view class="phone_select"  hidden="{{!selectState}}">
+            <view class="cancel_but" bindtap="cancelClick">取消</view>
+            <view wx:for="{{insuranceCompanys}}" class="select_one" bindtap="mySelect" bindtap="selectClick" data-code="{{item.code}}" data-me="{{item.fullName}}">{{item.fullName}}
+            </view>
+    </view>
+  <view class='bottom-btn'> 
+    <button type="primary" bindtap='survey' style="background-color:#2EAB3B;"  hover-class="none">发起视频查勘</button> 
+  </view> 
+</view>
+ 

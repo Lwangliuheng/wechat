@@ -1,0 +1,146 @@
+<!--pages/filedViewRecord/filedViewRecord.wxml-->
+
+<view class="body-view {{showSignFlag?'oh':''}}">
+    <view class="title">
+        <text class="smlTitle">{{detailData.detail.insureName}}</text>
+    </view>
+    <view class="title">
+        <text class="bigTitle">机动车辆保险事故现场查勘记录</text>
+    </view>
+
+    <image class="dashImg" style="width100%;height:2rpx;" src="../../Resources/dashline.png" ></image>
+
+
+    <view class="textItem">
+        <text>报案号：{{detailData.detail.reportNo}}</text>
+    </view>
+    <view class="textItem">
+        <text>出险时间：{{detailData.detail.accidentTime}}</text>
+    </view>
+    <view class="textItem mb10">
+        <text>出险/查勘地点：{{detailData.detail.accidentAddress}}</text>
+    </view>
+    <view class="textItem2">
+        <text>保险车辆信息</text>
+    </view>
+
+
+    <view class="tableItem bbn">
+        <text class="tableItemLeft">车牌号</text><text class="tableItemRight">{{detailData.targetVehicle.licenseNo}}</text>
+    </view>
+    <view class="tableItem bbn">
+        <text class="tableItemLeft">驾驶员姓名</text><text class="tableItemRight">{{detailData.targetVehicle.casePerson}}</text>
+    </view>
+    <view class="tableItem bbn">
+        <text class="tableItemLeft">联系方式</text><text class="tableItemRight">{{detailData.targetVehicle.phone}}</text>
+    </view>
+    <view class="tableItem bbn">
+        <text class="tableItemLeft">保险公司</text><text class="tableItemRight">{{detailData.targetVehicle.companyName}}</text>
+    </view>
+    <view class="tableItem mb10">
+        <text class="tableItemCenter" bindtap="gotolink" data-licenseNo="{{detailData.targetVehicle.licenseNo}}" id="photoButton0">现场照片 ></text>
+    </view>
+
+    <block wx:for="{{thirdPartyList}}" wx:for-index="idx">
+        <view>
+            <text class="textItem2">三者车辆信息</text>
+        </view>
+        <view class="tableItem bbn">
+            <text class="tableItemLeft">车牌号</text><text class="tableItemRight">{{item.licenseNo}}</text>
+        </view>
+        <view class="tableItem bbn">
+            <text class="tableItemLeft">联系方式</text><text class="tableItemRight">{{item.phone}}</text>
+        </view>
+        <view class="tableItem mb10">
+            <text class="tableItemCenter" data-licenseNo="{{item.licenseNo}}" bindtap="gotolink" id="photoButton{{idx+1}}">现场照片 ></text>
+        </view>
+    </block>
+
+
+    <!-- <view class="textItem2">
+        <text>被保险人（驾驶人）签字</text>
+    </view> -->
+
+    <!--签名框-->
+    <!-- <view class="signBox">
+        <view class="firstLine flex">
+            <view class="imgDiv flex">
+                <image class="img flex" src="../../Resources/greenCircle.png"></image>
+            </view>
+            <view class="firstLineText flex-1">
+                <text>被保险人/驾驶人声明：以上内容本人确认属实；向你公司提交的索赔资料真实、可靠，没有任何 虚假和隐瞒；如有虚假、欺诈行为、愿意承担由此产生的所有法律责任。</text>
+            </view>
+        </view>
+        <view class="secondLine flex">
+            <view class="imgDiv flex">
+                <image bindtap="changeAgreeThird" wx:if="{{agreeThird==0}}" class="img flex" src="../../Resources/greyCircle.png"></image>
+                <image bindtap="changeAgreeThird" wx:else class="img flex" src="../../Resources/greenCircle.png"></image>
+            </view>
+            <view class="secondLineText flex-1">
+                <text>被保险人同意由保险公司将此次事故造成三者车辆损失的赔款直接转至三者车提供的账户内。</text>
+            </view>
+        </view>
+        <view class="signShowBox" wx-if="{{signStatus==0?true:false}}">
+            <text bindtap="showSignDiv" class="openSignButton">点击签字</text>
+        </view>
+        <view class="signedShowBox" wx-if="{{signStatus!=0?true:false}}">
+            <text>签字：</text>
+            <image class="signImg" src="{{signImgUrl}}"></image>
+        </view>
+    </view> -->
+
+     <image class="dashImg2" style="width100%;height:2rpx;" src="../../Resources/dashline.png" ></image>
+
+     <view class="bottomTitleView">
+        <image class="bottomTitleBg" src="../../Resources/titlebg.png" ></image>
+        <text class="bottomTitleText">理赔流程</text>
+     </view>
+
+    <view class="bottomInfo">
+        <view class="textItem3">
+                <text>1、前往就近或熟悉的修理厂（4s店）进行定损</text>
+        </view>
+        <view class="textItem3">
+            <text>2、定损时拨打保险公司电话</text><text class="red">40001-88688</text><text>进行定损咨询</text>
+        </view>
+        <view class="textItem3">
+            <text>3、确定事故损失后，出具机动车辆保险车辆损失情况确认书等索赔材料</text>
+        </view>
+        <view class="textItem3">
+            <text>4、将索赔材料递交我司</text>
+        </view>
+        <view class="textItem3">
+            <text>5、我司完成材料审核后，支付赔款。并在支付赔款后，进行通知及回访</text>
+        </view>
+        <view class="textItem3">
+            <text>如有疑问可拨打：</text><text class="red">40001-88688</text><text>进行咨询</text>
+        </view>
+    </view>
+
+</view>
+<!-- 签名弹框 -->
+<view wx:if="{{showSignFlag}}" class="signWrap">
+    <view class="signContent">
+
+        <view class="signTip1">
+            <text>请对查勘信息确认无误后签字</text>
+        </view>
+        <view class="signContentBottom">
+            <canvas disable-scroll="false" class="canvas" canvas-id="myCanvas" bindtouchstart="canvasStart" bindtouchmove="canvasMove" bindtouchend="canvasEnd"/>
+            <view class="signHereBox" style="display: none;">
+                <text style="display: none;" class="signHereTip">请在此区域签字</text>
+
+            </view>
+            <view class="operationBox">
+                <image bindtap="clearDraw" class="cleanImg" src="../../Resources/cleanSign.png"></image>
+                <image bindtap="getImg" class="confirmImg" src="../../Resources/confirmSign.png"></image>
+
+            </view>
+        </view>
+
+        <view class="closeBtn" bindtap="hideSignDiv">
+            <image src="../../Resources/closeSign.png"></image>
+        </view>
+
+    </view>
+</view>
