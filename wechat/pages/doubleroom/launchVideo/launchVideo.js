@@ -39,6 +39,18 @@ Page({
 	 */
   // 双向绑定
   LicenseNoInput(e) {
+    var r = /^[a-zA-Z\d]{6,8}$/;
+    if (!r.test(e.detail.value)){
+      this.setData({
+        reporterLicenseNo: ""
+      })
+      wx.showToast({
+        title: '请输入正确的车辆车牌',
+        icon: 'success',
+        duration: 1000
+      })
+      return;
+    }
     if (e.detail.value.length>8){
       this.setData({
         reporterLicenseNo: e.detail.value.toUpperCase().substring(0,8)

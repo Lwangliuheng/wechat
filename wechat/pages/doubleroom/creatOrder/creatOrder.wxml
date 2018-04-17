@@ -5,12 +5,12 @@
        <input class="input-theme" type='text' bindblur="phoneChang" placeholder='请输入报案人手机号'/>
        <view class="both"></view>
   </view>
-  <view class='input-box'>
+  <view class='input-box' bindtap='selectChang'>
        <text class="input-word">保险公司</text>
-       <view class="img-wrap" bindtap='selectChang'>
+        <view class="img-wrap" >
           <image class='graph'  wx:if="{{selectState}}"  src='../../Resources/upward.png'></image>
           <image class='graph'  wx:if="{{!selectState}}" src='../../Resources/downward.png'></image>
-       </view>
+       </view> 
        <view class="input-theme person-box">
           <view class="default-price" wx:if="{{!selectValue}}"> 请选择保险公司 </view>
           <view class="person-box-word"> {{selectValue}} </view>
@@ -25,8 +25,11 @@
  </view> 
    <view class="phone_select"  hidden="{{!selectState}}">
             <view class="cancel_but" bindtap="cancelClick">取消</view>
-            <view wx:for="{{insuranceCompanys}}" class="select_one" bindtap="mySelect" bindtap="selectClick" data-code="{{item.code}}" data-me="{{item.fullName}}">{{item.fullName}}
+      <view class="phone-wrap">
+          <view wx:for="{{insuranceCompanys}}" class="select_one" bindtap="mySelect" bindtap="selectClick" data-code="{{item.code}}" data-me="{{item.fullName}}">{{item.fullName}}
             </view>
+      </view>
+           
     </view>
   <view class='bottom-btn'> 
     <button type="primary" bindtap='survey' style="background-color:#2EAB3B;"  hover-class="none">发起视频查勘</button> 
