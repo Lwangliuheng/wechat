@@ -55,8 +55,19 @@
   /* top:70rpx; */
   bottom:0rpx;
 }
+.tan_loading{
+  position:absolute;
+  left:50%;
+  top:50%;
+  margin-top:-50rpx;
+  margin-left:-50rpx;
+}
+.y-name{
+  color:black;
+}
 .phone-wrap{
-   height:600rpx;
+  position: relative;
+   height:500rpx;
    overflow-y:scroll;
 }
 .select_one{

@@ -2,15 +2,33 @@
 var config = require('../../../config');
 Page({
   data: {
+     isExist: 1, //0 - 存在 ， 1 - 不存在 
+     phoneNumber: "",//报案人电话
+     insuranceCompany: "",//保险公司
      code:"",
      createState:false,//创建订单状态
      pohoneValue:"",
      phoneState:false,//手机号输入状态
      selectState:false,//保险公司选择状态
-     insuranceCompanys:[],
+     insuranceCompanys:[],//保险公司列表
      selectValue: ""//保险公司名称
   },
   onLoad(options) {
+    console.log(2222222222)
+    //判断是否已经有报案电话
+    // this.setData({
+    //   insuranceCompany: getApp().data.insuranceCompany,
+    //   phoneNumber: getApp().data.phoneNumber
+    // })
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
+    //获取保险公司列表
+    this.setInsuranceList();
+  },
+  //获取保险公司列表
+  setInsuranceList(){
     var plateNumber = getApp().data.reporterLicenseNo;
     var requesturl = config.RequestAddressPrefix2 + '/weixin/survey/api/v1/query/insurance/' + plateNumber;
     var that = this;
@@ -21,13 +39,19 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        that.setData({
-          insuranceCompanys: res.data.data.insuranceCompanys
-        })
-        console.log(res.data.data.insuranceCompanys,555555555)
+        if (res.data.rescode == 200){
+          that.setData({
+            isExist: res.data.data.isExist,
+            phoneNumber: res.data.data.userMobilePhone,
+            insuranceCompany: res.data.data.insuranceCompanyName,
+            insuranceCompanys: res.data.data.insuranceCompanys
+          })
+          wx.hideLoading()
+        }
+        console.log(res,6666666666666666666666)
       },
       fail: function () {
-       
+         
       }
     })
   },
@@ -63,6 +87,9 @@ Page({
     //   })
     //   return
     // }
+    if (this.data.insuranceCompany){
+      return
+    }
     this.setData({
       selectState: !this.data.selectState
     })
@@ -196,29 +223,34 @@ Page({
     })
   },
   survey(){
-    if (!this.data.phoneState){
-      wx.showToast({
-        title: '请输入正确手机号',
-        icon: 'success',
-        duration: 1000
-      })
-      return
+    if (this.data.isExist == 1){
+      if (!this.data.phoneState) {
+        wx.showToast({
+          title: '请输入正确手机号',
+          icon: 'success',
+          duration: 1000
+        })
+        return
+      }
+      if (this.data.selectValue == "") {
+        wx.showToast({
+          title: '请选择保险公司',
+          icon: 'success',
+          duration: 1000
+        })
+        return
+      }
+      if (this.data.phoneState && this.data.selectValue != "") {
+        wx.showLoading({
+          title: '正在加载数据……',
+          mask: true
+        })
+        this.setCreate()
+      }
+    }else{
+      this.toWeb()
     }
-    if (this.data.selectValue == "") {
-      wx.showToast({
-        title: '请选择保险公司',
-        icon: 'success',
-        duration: 1000
-      })
-      return
-    }
-    if (this.data.phoneState && this.data.selectValue != "") {
-      wx.showLoading({
-        title: '正在加载数据……',
-        mask:true
-      })
-      this.setCreate()
-    }
+    
     // if (this.data.phoneState && this.data.selectValue != "" && this.data.createState){
     //   this.toWeb();
     // }

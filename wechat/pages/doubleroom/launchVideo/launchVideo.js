@@ -8,6 +8,7 @@ Page({
 	 * 页面的初始数据
 	 */
   data: {
+    reporterLicenseNoStaet:false,
     reporterLicenseNo: '',
     showCityDialog: true,
     roomName: '',	// 房间名称
@@ -41,22 +42,24 @@ Page({
   LicenseNoInput(e) {
     var r = /^[a-zA-Z\d]{6,8}$/;
     if (!r.test(e.detail.value)){
-      this.setData({
-        reporterLicenseNo: ""
-      })
       wx.showToast({
         title: '请输入正确的车辆车牌',
         icon: 'success',
         duration: 1000
       })
+      this.setData({
+        reporterLicenseNoStaet: false
+      });
       return;
     }
     if (e.detail.value.length>8){
       this.setData({
+        reporterLicenseNoStaet:true,
         reporterLicenseNo: e.detail.value.toUpperCase().substring(0,8)
       });
     }else{
       this.setData({
+        reporterLicenseNoStaet: true,
         reporterLicenseNo: e.detail.value.toUpperCase()
       });
     }
@@ -80,8 +83,7 @@ Page({
   },
  
   videoConnect: function(){
-    console.log(this.data.reporterLicenseNo)
-    if (this.data.reporterLicenseNo == '' || this.data.reporterLicenseNo == undefined ){
+    if (this.data.reporterLicenseNo == '' || this.data.reporterLicenseNo == undefined || !this.data.reporterLicenseNoStaet){
         wx.showToast({
           title: '请输入车牌号',
           icon: 'success',
