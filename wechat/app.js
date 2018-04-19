@@ -39,6 +39,7 @@ App({
     formId: "",
     reporterLicenseNo: "",
     latitude: "",
-    longitude:""
+    longitude:"",
+    insuranceCompanyList:"" 
   } 
 })

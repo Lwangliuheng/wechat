@@ -81,7 +81,7 @@ Page({
       showCityDialog: true
     })
   },
- 
+  
   videoConnect: function(){
     if (this.data.reporterLicenseNo == '' || this.data.reporterLicenseNo == undefined || !this.data.reporterLicenseNoStaet){
         wx.showToast({

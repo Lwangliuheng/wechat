@@ -2,6 +2,7 @@
 var config = require('../../../config');
 Page({
   data: {
+    tapTime: '',	// 防止两次点击操作间隔太快
      isExist: 1, //0 - 存在 ， 1 - 不存在 
      phoneNumber: "",//报案人电话
      insuranceCompany: "",//保险公司
@@ -223,6 +224,12 @@ Page({
     })
   },
   survey(){
+    // 防止两次点击操作间隔太快
+    var nowTime = new Date();
+    if (nowTime - this.data.tapTime < 2000) {
+      return;
+    }
+    this.setData({ 'tapTime': nowTime });
     if (this.data.isExist == 1){
       if (!this.data.phoneState) {
         wx.showToast({

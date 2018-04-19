@@ -452,7 +452,7 @@ console.log(77777)
       return;
     }
     // 设置房间标题
-    wx.setNavigationBarTitle({ title: self.data.roomname });
+    //wx.setNavigationBarTitle({ title: self.data.roomname });
   },
 
   /**
