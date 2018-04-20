@@ -249,7 +249,7 @@ Page({
       }
       if (this.data.phoneState && this.data.selectValue != "") {
         wx.showLoading({
-          title: '正在加载数据……',
+          title: '加载中……',
           mask: true
         })
         this.setCreate()

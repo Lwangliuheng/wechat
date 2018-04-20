@@ -7,6 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    ctx:"",
     canWidth: '',
     canHeight: '',
     role: 'enter',    // 表示双人会话的角色，取值'enter'表示加入者，'create'表示创建者
@@ -110,6 +111,7 @@ Page({
   },
   drawCanvas(filesrc) {  // 缩放图片
     const ctx = wx.createCanvasContext('attendCanvasId');
+    this.ctx = ctx;
     let that = this;
     wx.getImageInfo({
       src: filesrc,
@@ -125,23 +127,24 @@ Page({
           console.log(that.data.canHeight);
           ctx.drawImage(filesrc, 0, 0, that.data.canWidth, that.data.canHeight);
           var st = setTimeout(function () {
-            ctx.draw(false, () => {
-              //  var st = setTimeout(function () {
-              wx.canvasToTempFilePath({
-                fileType: "jpg",
-                canvasId: 'attendCanvasId',
-                success: function (res) {
-                  console.log("压缩后：" + res.tempFilePath);
-                  that.uploadFileOpt(res.tempFilePath);
-                },
-                fail: function (res) {
-                  console.log(res);
-                }
-              })
-              clearTimeout(st);
-              // }, 1000);
+            that.draw();
+            // ctx.draw(false, () => {
+            //    var st = setTimeout(function () {
+            //   wx.canvasToTempFilePath({
+            //     fileType: "jpg",
+            //     canvasId: 'attendCanvasId',
+            //     success: function (res) {
+            //       console.log("压缩后：" + res.tempFilePath);
+            //       that.uploadFileOpt(res.tempFilePath);
+            //     },
+            //     fail: function (res) {
+            //       console.log(res);
+            //     }
+            //   })
+            //   clearTimeout(st);
+            //   }, 1000);
 
-            });
+            // });
             clearTimeout(st);
            }, 1000);
         
@@ -151,10 +154,35 @@ Page({
       }
     })
   },
+  draw(){
+    const that = this;
+    this.ctx.draw(false, () => {
+      var st = setTimeout(function () {
+        that.derived();
+        clearTimeout(st);
+      }, 1000);
+
+    });
+  },
+  derived(){
+    var that = this;
+    wx.canvasToTempFilePath({
+      fileType: "jpg",
+      canvasId: 'attendCanvasId',
+      success: function (res) {
+        console.log("压缩后：" + res.tempFilePath);
+        that.uploadFileOpt(res.tempFilePath);
+      },
+      fail: function (res) {
+        console.log(res);
+      }
+    })
+  },
   //上傳照片
   uploadFileOpt(tempFilePath) {
     console.log(tempFilePath)
     var nowTime = new Date();
+    var that = this;
     console.log(nowTime)
     //保存图片到服务器
     var url = config.RequestAddressPrefix2 + '/weixin/survey/api/v1/live/photo/upload'
@@ -184,6 +212,10 @@ Page({
         // var data = {};
         // data.imgurl = 'img';
         // var data = JSON.stringify(data)
+        that.setData({//构造画板宽高
+          canWidth: 0,
+          canHeight:0
+        })
         webimhandler.sendCustomMsgtext(data)
       },
       fail: function (error) {

@@ -23,9 +23,9 @@
        </view>
        <view class="both"></view>
   </view>
- <view class="select_wrap" hidden="{{!selectState}}"> 
+ <view class="select_wrap" hidden="{{!selectState}}" bindtap="cancelClick"> 
  </view> 
-   <view class="phone_select"  hidden="{{!selectState}}">
+   <view class="phone_select"  hidden="{{!selectState}}" >
       <view class="cancel_but" bindtap="cancelClick">取消</view>
       <view class="phone-wrap">
           <view wx:if="{{insuranceCompanys.length == 0}}" class="tan_loading">加载中……</view>
