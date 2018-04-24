@@ -21,10 +21,10 @@ Page({
     //   insuranceCompany: getApp().data.insuranceCompany,
     //   phoneNumber: getApp().data.phoneNumber
     // })
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    //   mask: true
+    // })
     //获取保险公司列表
     this.setInsuranceList();
   },
@@ -47,7 +47,7 @@ Page({
             insuranceCompany: res.data.data.insuranceCompanyName,
             insuranceCompanys: res.data.data.insuranceCompanys
           })
-          wx.hideLoading()
+          // wx.hideLoading()
         }
         console.log(res,6666666666666666666666)
       },
@@ -183,6 +183,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        wx.hideLoading();
         console.log(res)
         if (res.data.rescode != 200) {
           wx.showToast({

@@ -180,7 +180,7 @@ Page({
       return;
     }
     self.setData({
-      roomName: '好e赔'
+      roomName: '你我保'
     });
     //后期去掉
     // wx.navigateTo({

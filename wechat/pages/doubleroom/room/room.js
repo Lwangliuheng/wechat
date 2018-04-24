@@ -110,71 +110,51 @@ Page({
     }
   },
   drawCanvas(filesrc) {  // 缩放图片
+    console.log("drawCanvas:",filesrc)
     const ctx = wx.createCanvasContext('attendCanvasId');
-    this.ctx = ctx;
+    console.log("ctx:", filesrc)
     let that = this;
     wx.getImageInfo({
       src: filesrc,
       success: function (res) {
         console.log(res)
-        if (res.width > 200 || res.height > 200) {//判断图片是否超过500像素
-          let scale = res.width / res.height//获取原图比例
-          that.setData({//构造画板宽高
-            canWidth: 200,
-            canHeight: 200 / scale
-          })
-          console.log(that.data.canWidth);
-          console.log(that.data.canHeight);
-          ctx.drawImage(filesrc, 0, 0, that.data.canWidth, that.data.canHeight);
-          var st = setTimeout(function () {
-            that.draw();
-            // ctx.draw(false, () => {
-            //    var st = setTimeout(function () {
-            //   wx.canvasToTempFilePath({
-            //     fileType: "jpg",
-            //     canvasId: 'attendCanvasId',
-            //     success: function (res) {
-            //       console.log("压缩后：" + res.tempFilePath);
-            //       that.uploadFileOpt(res.tempFilePath);
-            //     },
-            //     fail: function (res) {
-            //       console.log(res);
-            //     }
-            //   })
-            //   clearTimeout(st);
-            //   }, 1000);
+        // if (res.width > 200 || res.height > 200) {//判断图片是否超过500像素
+        //   let scale = res.width / res.height//获取原图比例
+        //   console.log("scale2:",scale)
+        //   that.setData({//构造画板宽高
+        //     canWidth: 200,
+        //     canHeight: 200 / scale
+        //   })
+        //   console.log(that.data.canWidth);
+        //   console.log(that.data.canHeight);
+        //   ctx.drawImage(filesrc, 0, 0, that.data.canWidth, that.data.canHeight);
+        //   console.log("drawImage:", scale)
+        //   var st = setTimeout(function () {
+        //     console.log("setTimeout:", scale)
+        //      ctx.draw();
+        //       console.log("draw:", scale)
+        //       var st1 = setTimeout(function () {
+        //         wx.canvasToTempFilePath({
+        //           fileType: "jpg",
+        //           canvasId: 'attendCanvasId',
+        //           success: function (res) {
+        //             console.log("压缩后：" + res.tempFilePath);
+        //             that.uploadFileOpt(res.tempFilePath);
+        //           },
+        //           fail: function (res) {
+        //             console.log(res);
+        //           }
+        //         })
+        //         clearTimeout(st1);
+        //       }, 1000);
+               
+        //     clearTimeout(st);
+        //   }, 1000);
 
-            // });
-            clearTimeout(st);
-           }, 1000);
-        
-        } else {
-          that.uploadFileOpt(res.tempFilePath);
-        }
-      }
-    })
-  },
-  draw(){
-    const that = this;
-    this.ctx.draw(false, () => {
-      var st = setTimeout(function () {
-        that.derived();
-        clearTimeout(st);
-      }, 1000);
-
-    });
-  },
-  derived(){
-    var that = this;
-    wx.canvasToTempFilePath({
-      fileType: "jpg",
-      canvasId: 'attendCanvasId',
-      success: function (res) {
-        console.log("压缩后：" + res.tempFilePath);
-        that.uploadFileOpt(res.tempFilePath);
-      },
-      fail: function (res) {
-        console.log(res);
+        // } else {
+          // that.uploadFileOpt(res.tempFilePath);
+        that.uploadFileOpt(filesrc);
+        // }
       }
     })
   },

@@ -24,7 +24,7 @@
     
 
 <modal sytle="border-radius:8px;" hidden="{{hidden}}" title="温馨提示" confirm-text="我已报案，继续理赔" cancel-text="取消" bindcancel="cancel" bindconfirm="confirm" no-cancel="{{nocancel}}">
-   好e赔车险理赔平台致力打造车险自助理赔第一入口，<text style="color: #f00;">在您发生交通事故后，请先拨打保险公司报案电话进行报案，</text>然后按提示使用好e赔进行在线理赔。
+   你我保车险理赔平台致力打造车险自助理赔第一入口，<text style="color: #f00;">在您发生交通事故后，请先拨打保险公司报案电话进行报案，</text>然后按提示使用你我保进行在线理赔。
 </modal>
 <!--默认隐藏-->
 <loading hidden="{{hiddenLoading}}">初始化</loading>
