@@ -71,7 +71,8 @@ Page({
         success(res) {
           console.log("图片路径11" + res);
           console.log("图片路径22" + res.tempImagePath);
-          that.drawCanvas(res.tempImagePath)
+          // that.drawCanvas(res.tempImagePath)
+          that.uploadFileOpt(res.tempImagePath);
         }
       })
     } else {
@@ -160,7 +161,7 @@ Page({
   },
   //上傳照片
   uploadFileOpt(tempFilePath) {
-    console.log(tempFilePath)
+    console.log(tempFilePath);
     var nowTime = new Date();
     var that = this;
     console.log(nowTime)
@@ -170,15 +171,11 @@ Page({
       url: url,
       filePath: tempFilePath,
       name: 'photo',
-      formData: {
-       
-      },
       header: { "Content-Type": "multipart/form-data" },
       success: function (res) {
         var nowTime = new Date();
         console.log(nowTime)
         console.log("图片保保存成功1:" + res.data);
-        // wx.hideLoading();
         getApp().data.LoadingtakePhone = false;
         res.data = JSON.parse(res.data);
         console.log(res.data.rescode)
@@ -189,13 +186,6 @@ Page({
         res.data.data.source = 'wechat';
         var data = JSON.stringify(res.data.data)
         console.log("图片保保存成功:" + data);
-        // var data = {};
-        // data.imgurl = 'img';
-        // var data = JSON.stringify(data)
-        that.setData({//构造画板宽高
-          canWidth: 0,
-          canHeight:0
-        })
         webimhandler.sendCustomMsgtext(data)
       },
       fail: function (error) {

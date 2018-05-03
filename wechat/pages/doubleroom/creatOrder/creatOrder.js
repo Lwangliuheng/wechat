@@ -32,6 +32,7 @@ Page({
   setInsuranceList(){
     var plateNumber = getApp().data.reporterLicenseNo;
     var requesturl = config.RequestAddressPrefix2 + '/weixin/survey/api/v1/query/insurance/' + plateNumber;
+    console.log(requesturl,"获取保险公司列表url")
     var that = this;
     wx.request({
       url: requesturl,

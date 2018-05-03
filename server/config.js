@@ -7,11 +7,13 @@ const CONF = {
 
   // 微信小程序 App ID
   // appId: 'wxa9c80b294771ee8f',
-  appId: 'wx65a8c950e465b808',
+  //appId: 'wx65a8c950e465b808',
+  appId:'wx1dd9515a80f6187d',
 
   // 微信小程序 App Secret
   // appSecret: 'dc463e241adeaff8240fc5f421d70dd0',
-  appSecret: '2f19a0e0b680399805098a161ad2a142',
+  //appSecret: '2f19a0e0b680399805098a161ad2a142',
+  appSecret:'222cbd96e9f4246065e583fd56944d8f',
 
   // 是否使用腾讯云代理登录小程序,没有用到腾讯云代理,这里默认填false
   useQcloudLogin: false,
@@ -98,7 +100,7 @@ const CONF = {
     port: 3306,
     user: 'root',
     db: 'cAuth',
-    pass: '',
+    pass: '4SYh3iK8',
     char: 'utf8mb4'
   },
 
