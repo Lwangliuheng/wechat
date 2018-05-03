@@ -154,6 +154,13 @@ Page({
         var accuracy = res.accuracy;
       }
     })
+     
+      /**
+  * 获取路径参数，判断进入的页面。
+  */
+    getApp().pathIntercept(options);
+    console.log(getApp().data.orderUserId, "获取的UserId");
+
 
     this.setData({
       hiddenLoading: false

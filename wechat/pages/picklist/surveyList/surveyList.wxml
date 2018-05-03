@@ -1,0 +1,53 @@
+<!--pages/picklist/surveyList/surveyList.wxml-->
+<view >
+    <view class="top-wrap">
+         <image src="../../Resources/background_one.png" class="top-wrap-back"></image>
+          <view class="top-content">
+              <view class="left top-content-left">
+                 <view class="top-content-p1"><text class="top-content-text">{{todayReceiveOrderCount}}</text>单</view>
+                 <view class="top-content-p1">每日接单</view>
+              </view>
+              <view class="right top-content-right">
+                  <view class="top-content-p1"><text class="top-content-text">{{todayIncome}}</text>元</view>
+                  <view class="top-content-p1">今日收入</view>
+              </view>
+          </view>
+    </view>
+    <view class="order-list" wx:for="{{orderList}}">
+          <view class="order-title">
+              <text class="left order-plate">{{item.vehicleLicenseNo}}</text>
+              <text class="right order-company">{{item.insuranceCompanyName}}</text>
+          </view>
+          <view class="order-word-wrap">
+            <image class="word-img" src="../../Resources/time_one.png"></image>
+            <text class="order-word">{{item.createTime}}</text>
+          </view>
+          <view class="order-word-wrap">
+            <image class="word-img" src="../../Resources/circle.png"></image>
+            <text class="order-word">要求{{item.estimateArrivalTime}}到达</text>
+          </view>
+          <view class="order-word-wrap order-word-wrap-te">
+            <image class="word-img" src="../../Resources/site.png"></image>
+            <text class="order-word">{{item.address}} <text class="yellow-word"> {{item.straightLineDistance}}k</text></text>
+          </view>
+          <view class="order-footer">
+              <view class="left order-footer-word yellow-word">
+                 正在等待查勘
+              </view>
+              <view class="right but-wrap" data-orderNo="{{item.orderNo}}" bindtap="lootMenu">
+                 抢单
+              </view>
+              
+          </view>
+         
+    </view>
+
+
+    <!-- 弹出框 -->
+    <!-- <view class="pop-box">
+        
+    </view> -->
+     <view class="warmPrompt">
+             温馨提示：抢单成功后不能手动取消，需联系客服取消订单
+     </view>
+</view>

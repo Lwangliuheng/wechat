@@ -1,0 +1,47 @@
+<view class="video-and-picture">
+    <view class="record-video">
+        <image src="http://placehold.it/80x60" mode="widthFix"></image>
+        <view class="record-btn" bindtap='videoLink'>开始视频连接</view>
+        <!-- <live-player class="record-btn" id='player'>live-player</live-player> -->
+        <!-- <live-pusher class="record-btn" id='pusher'>live-pusher</live-pusher> -->
+    </view>
+    <view class='gap'></view>
+    <view class='pics'>
+      <view class='title'>拍照取证</view>
+      <view class='markCar'>
+        <view class='car1-info'>标的车：{{markCar.vehicle.vehicleLicenseNo}}</view>
+        <view class='up-pic-box'>
+          <view wx:for='{{markCar.photos}}' wx:key="*this" class='image'>
+            <image src='{{item.photoUrl}}' mode='scaleToFill' bindtap='prewImage' data-img='{{photo.photoUrl}}'></image>
+            <view class='describe'>{{item.typeComment}}</view>
+          </view>
+          <view class='up-pic-btn' bindtap='shopPopup' data-vehicle='{{markCar.vehicle}}'>
+            <image src='../../Resources/addpic.png' mode='widthFix'></image>
+            <view>上传图片</view>
+          </view>
+        </view>
+      </view>
+      <view class='car2' wx:for='{{otherCars}}' wx:key="*this" >
+        <view class='car2-info'>三者车：{{item.vehicle.vehicleLicenseNo}}</view>
+        <view class='up-pic-box'>
+          <view wx:for='{{item.photos}}' wx:key="*this" wx:for-item="photo" class='image'>
+            <image src='{{photo.photoUrl}}' mode='scaleToFill' bindtap='prewImage' data-img='{{photo.photoUrl}}'></image>
+            <view class='describe'>{{photo.typeComment}}</view>
+          </view>
+          <view class='up-pic-btn' bindtap='shopPopup' data-vehicle='{{item.vehicle}}'>
+            <image src='../../Resources/addpic.png' mode='widthFix'></image>
+            <view>上传图片</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class='mask' hidden='{{hidePopup}}'>
+      <view class='box'>
+        <view class='title'>选择照片类型</view>
+        <view class='close' bindtap='close'>X</view>
+        <view style='display:flex;flex-wrap:wrap;'>
+          <view class="type {{(current == index+1)?'typeactive' : ''}}" wx:for='{{types}}' wx:key='index' data-id='{{index}}' bindtap='chooseType'>{{item[1]}}</view>
+        </view>
+      </view>
+    </view>
+</view>

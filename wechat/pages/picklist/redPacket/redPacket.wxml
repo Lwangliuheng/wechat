@@ -1,0 +1,14 @@
+<view class='red-packet'>
+    <view class="info">
+        <!-- <image> -->
+        <image class='' src='../../Resources/defeated.png' mode='widthFix'></image>
+        <span>手慢了，订单被别人抢走了~</span>
+    </view>
+    <view class='info-tip'>别灰心，送您一个红包奖励，拆开后继续去抢单吧</view>
+    <view style='position:relative;height:584rpx;margin-top:54rpx;'>
+      <image class='redBag' wx:if='{{isOpen}}' src='../../Resources/red_packet.png' bindtap="openRedPacket" mode='widthFix'></image>
+      <image class='redBag' wx:if='{{!isOpen}}' src='../../Resources/Open_red_envelopes.png' mode='widthFix'></image>
+      <view class='money'><text>1.00</text>元</view>
+    </view>
+    <view class='btn' bindtap='getMoreOrder'>继续抢单 <text hidden="{{!isTiming}}">（{{timeLeft}}s）</text></view>
+</view>

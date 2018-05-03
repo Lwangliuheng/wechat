@@ -1,0 +1,110 @@
+<!--pages/picklist/surveyMap/surveyMap.wxml-->
+<view >
+   <view class="top-wrap">
+       <view class="top-content-wrap">
+            <view class="top-content">
+                 <view class="left">
+                      <view class="left-wrap">
+                          <view class="left top-content-img-wrap"> 
+                              <image class="top-content-img" src="../../Resources/time_two.png"></image>
+                          </view>
+                          <view class="left top-content-one">{{basicInfo.duration}}</view>
+                          <view class="left top-content-two">分</view>
+                      </view>
+                      <view class="top-content-three">前到达</view>
+                 </view>
+                  <view class="right">
+                     <view class="left-wrap">
+                          <view class="left top-content-img-wrap"> 
+                              <image class="top-content-img" src="../../Resources/money.png"></image>
+                          </view>
+                          <view class="left top-content-one">{{basicInfo.income}}</view>
+                          <view class="left top-content-two">元</view>
+                      </view>
+                      <view class="top-content-three">完成奖励</view>
+                 </view>
+            </view>
+       </view>
+   </view>
+
+     <view class="order-list">
+          <view class="order-title">
+              <text class="left order-plate">{{basicInfo.vehicleLicenseNo}}</text>
+              <text class="right order-company">{{basicInfo.insuranceCompanyNa}}</text>
+          </view>
+          <view class="order-word-wrap">
+              <text class="order-word">报案时间：</text>
+              <text class="order-word">{{basicInfo.createTime}}</text>
+          </view>
+          <view class="order-word-wrap">
+              <text class="order-word">报案用户姓名：</text>
+              <text class="order-word">{{basicInfo.orderUserFullName}}</text>
+          </view>
+          <view class="order-word-wrap">
+              <text class="order-word">报案用户电话：</text>
+              <text class="order-word order-word-te" >{{basicInfo.orderUserMobilePhone}}</text>
+              <image class="word-img" src="../../Resources/phone.png"></image>
+          </view>
+          <view class="order-word-wrap order-word-wrap-te">
+              <text class="order-word">查勘地址：</text>
+              <text class="order-word order-word-te">{{basicInfo.orderAddress}}<text class="yellow-word">{{basicInfo.distance}}米</text></text>
+              <image class="word-img" src="../../Resources/site.png"></image>
+          </view>
+          <view class="order-footer">
+              <view class="order-footer-word yellow-word">
+                <text  wx:if="{{goSurveySiteState}}">
+                    骑行预计{{basicInfo.estimateArrivalTime}}分钟到达。
+                </text>
+                 
+              </view>
+              <!-- <view class="right but-wrap">
+                 抢单
+              </view> -->
+              <view class="map-wrap">
+                 <map id="map" scale="14"  longitude="113.354520" latitude="23.199994"  bindmarkertap="markertap" bindregionchange="regionchange" markers="{{markers}}" show-location style="width: 100%; height: 275px;"  polyline="{{polyline}}"></map>
+              </view>
+              <view class="kfgz">
+                 <view class="left kfgz-left" bindtap="contactCustomerService">
+                     <image class="word-footer-img" src="../../Resources/service.png"></image>
+                     <text class="kfgz-word">联系客服</text>
+                 </view>
+                 <view class="right kfgz-right" bindtap="openLayer">
+                     <image class="word-footer-img" src="../../Resources/certificate.png"></image>
+                     <text class="kfgz-word">电子工作证</text>
+                 </view>
+              </view>
+              <view class="leave-but" bindtap="goSurveySite">
+                {{goSurveySiteValue}}
+              </view>
+          </view>
+    </view>
+    
+
+
+    
+    <view class="pop-but-wrap" bindtap="closeLayer" wx:if="{{layerState}}">
+        
+    </view>
+    <view class="pop-but" wx:if="{{layerState}}" bindtap="closeLayer">
+            <view class="company-logo">gsm</view>
+            <view class="employees-card">视频查勘现场辅助查勘员工作证</view>
+            <image src="{{employeesInfo.avatarUrl}}" class="employees-img"></image>
+            <view class="employees-name">
+               <text>姓名：</text>
+               <text class="underline">{{employeesInfo.riderFullName}}</text>
+            </view>
+            <view class="employees-name">
+               <text>职位：</text>
+               <text class="underline">{{employeesInfo.jobTitle}}</text>
+            </view>
+            <view class="employees-name">
+               <text>编号：</text>
+               <text class="underline">{{employeesInfo.jobNumber}}</text>
+            </view>
+            <view class="employees-name">
+               <text>公司：</text>
+               <text class="underline">{{employeesInfo.companyFullName}}</text>
+            </view>
+            <view class="fork-but">X</view>
+    </view>
+</view>

@@ -40,6 +40,23 @@ App({
     reporterLicenseNo: "",
     latitude: "",
     longitude:"",
-    insuranceCompanyList:"" 
-  } 
+    insuranceCompanyList:"" ,
+    orderUserId: "",
+    orderno: ""
+  },
+  /**
+   * 获取路径参数，判断进入的页面。
+   */
+  pathIntercept(options) {
+    console.log(options.userId, "订单入口userId")
+    var userId = "e8a5819e-d74a-11e7-b854-005056c00008";
+    var userId = options.userId;
+    if (userId) {
+      this.data.orderUserId = userId;
+      var url = '../picklist/surveyList/surveyList?userId=' + userId
+      wx.navigateTo({
+        url: url
+      });
+    }
+  }, 
 })
