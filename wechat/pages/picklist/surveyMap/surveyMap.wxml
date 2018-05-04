@@ -86,7 +86,7 @@
         
     </view>
     <view class="pop-but" wx:if="{{layerState}}" bindtap="closeLayer">
-            <view class="company-logo">gsm</view>
+            <!-- <view class="company-logo">gsm</view> -->
             <view class="employees-card">视频查勘现场辅助查勘员工作证</view>
             <image src="{{employeesInfo.avatarUrl}}" class="employees-img"></image>
             <view class="employees-name">

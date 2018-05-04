@@ -49,8 +49,8 @@ App({
    */
   pathIntercept(options) {
     // console.log(options.riderId, "订单入口userId")
-    // var userId = "e8a5819e-d74a-11e7-b854-005056c00008";
-    var userId = options.riderId;
+    var userId = "e8a5819e-d74a-11e7-b854-005056c00008";
+   // var userId = options.riderId;
     if (userId) {
       this.data.orderUserId = userId;
       //var url = '../picklist/surveyList/surveyList?userId=' + userId

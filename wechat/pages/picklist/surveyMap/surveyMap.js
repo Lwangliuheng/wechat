@@ -49,10 +49,12 @@ Page({
       title: '加载中',
     });
     var data = {
-      // uid: getApp().data.orderUserId,
-      uid: "eac8cb6f-e5a6-4e2e-b741-6bc414fb0576",
-      lng: 116.4694415328,//getApp().data.longitude,
-      lat: 39.8984379793  //getApp().data.latitude
+       uid: getApp().data.orderUserId,
+       lng: getApp().data.longitude,
+       lat: getApp().data.latitude
+      //uid: "eac8cb6f-e5a6-4e2e-b741-6bc414fb0576",
+      // lng: 116.4694415328,
+      // lat: 39.8984379793  
     };
     var requesturl = config.RequestAddressPrefix2 + '/order/v1/undone';
     var that = this;
@@ -69,20 +71,20 @@ Page({
         if (res.data.rescode == 200) {
           var polyline = [];
           var obj = {};
-          //obj.points = res.data.data.routeCoordinatePoints;
-          obj.points = [{
-            longitude: 113.3245211,
-            latitude: 23.099994
-          }, {
-            longitude: 113.324520,
-            latitude: 23.21229
-          },{
-              longitude: 113.314520,
-              latitude: 23.11229
-          }, {
-            longitude: 113.304520,
-            latitude: 23.10229
-          }];
+          obj.points = res.data.data.routeCoordinatePoints;
+          // obj.points = [{
+          //   longitude: 113.3245211,
+          //   latitude: 23.099994
+          // }, {
+          //   longitude: 113.324520,
+          //   latitude: 23.21229
+          // },{
+          //     longitude: 113.314520,
+          //     latitude: 23.11229
+          // }, {
+          //   longitude: 113.304520,
+          //   latitude: 23.10229
+          // }];
           obj.color = "#4ddd26";
           obj.width = 4;
           obj.arrowLine = true;
@@ -91,13 +93,18 @@ Page({
           polyline.push(obj);
           var markers = [{
             id: 111,
-            latitude: 23.099994,
-            longitude: 113.3245211
-          }, {
-            id: 112,
-            latitude: 23.10229,
-            longitude: 113.304520
+            latitude: res.data.data.lat,
+            longitude: res.data.data.lng
           }]
+          // var markers = [{
+          //   id: 111,
+          //   latitude: 23.099994,
+          //   longitude: 113.3245211
+          // }, {
+          //   id: 112,
+          //   latitude: 23.10229,
+          //   longitude: 113.304520
+          // }]
            
           
           // polyline = res.data.data.routeCoordinatePoints;
@@ -165,8 +172,8 @@ Page({
     wx.showLoading({
       title: '加载中',
     });
-    // var userId = getApp().data.orderUserId;
-    var userId = "eac8cb6f-e5a6-4e2e-b741-6bc414fb0576";
+    var userId = getApp().data.orderUserId;
+    //var userId = "eac8cb6f-e5a6-4e2e-b741-6bc414fb0576";
     var requesturl = config.RequestAddressPrefix2 + '/rider/v1/me/work/permit/' + userId;
     var that = this;
     wx.request({
@@ -207,8 +214,8 @@ Page({
         title: '加载中',
       });
       var data = {
-        // uid: getApp().data.orderUserId,
-        uid: "eac8cb6f-e5a6-4e2e-b741-6bc414fb0576",
+        uid: getApp().data.orderUserId,
+        //uid: "eac8cb6f-e5a6-4e2e-b741-6bc414fb0576",
         orderNo: getApp().data.orderno
       };
       var requesturl = config.RequestAddressPrefix2 + '/survey/v1/arrivals';

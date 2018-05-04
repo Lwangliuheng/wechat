@@ -34,15 +34,15 @@ Page({
 
   // 页面初始进来
   onLoad() {
-    this.setData({
-      orderNo: 'b21732c618934fa987fc659d261ef1be'
-    })
+    // this.setData({
+    //   orderNo: 'b21732c618934fa987fc659d261ef1be'
+    // })
 
     wx.showLoading({
       title: '加载中',
     });
 
-    this.init(this.data.orderNo);
+    this.init(getApp().data.orderno);
 
   },
 
@@ -78,14 +78,20 @@ Page({
     wx.showLoading({
       title: '视频连接中',
     })
+    // var data = {
+    //   'formId': getApp().data.formId,
+    //   "orderNo": this.data.orderNo,
+    //   "uid": this.data.uid
+    //   // "openId": 'o-Xv05cbfCNP3K5 - 22r3u7z67tOU'
+    // }
     var data = {
       'formId': getApp().data.formId,
-      "orderNo": this.data.orderNo,
-      "uid": this.data.uid
+      "uid": getApp().data.orderUserId,
+      "orderNo": getApp().data.orderno
       // "openId": 'o-Xv05cbfCNP3K5 - 22r3u7z67tOU'
     }
     console.log(JSON.stringify(data))
-    var requesturl = config.RequestAddressPrefix5 + '/survey/v2/video/connect';
+    var requesturl = config.RequestAddressPrefix2 + '/survey/v2/video/connect';
     console.log(requesturl)
     var self = this;
     wx.request({
@@ -141,7 +147,7 @@ Page({
   init (orderNo) {
     var that = this;
     wx.request({
-      url: config.RequestAddressPrefix5 + `/survey/v1/photo/${orderNo}`,
+      url: config.RequestAddressPrefix2 + `/survey/v1/photo/${orderNo}`,
       method: "GET",
       success: function (res) {
         wx.hideLoading();
@@ -228,7 +234,7 @@ Page({
 
           // 获取到的图片 上传到服务器
           wx.uploadFile({
-            url: config.RequestAddressPrefix5 + `/survey/v1/photo/upload`, 
+            url: config.RequestAddressPrefix2 + `/survey/v1/photo/upload`, 
             filePath: tempFilePath,
             name: 'photoFile',
             formData: data,

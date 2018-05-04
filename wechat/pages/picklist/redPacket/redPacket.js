@@ -45,13 +45,19 @@ Page({
     this.setData({
       isOpen: true
     })
+    // var data: {
+    //   uid: this.data.orderNo,
+    //     orderNo: this.data.orderNo
+    // };
+    var data = {
+      uid: getApp().data.orderUserId,
+      //uid: "eac8cb6f-e5a6-4e2e-b741-6bc414fb0576",
+      orderNo: getApp().data.orderno
+    }
     wx.request({
-      url: config.RequestAddressPrefix5 + '/rider/income/v1/redpacket/receive',
+      url: config.RequestAddressPrefix2 + '/rider/income/v1/redpacket/receive',
       method: 'POST',
-      data: {
-        uid: this.data.orderNo,
-        orderNo: this.data.orderNo
-      },
+      data: data,
       success (res) {
         if(res.data.rescode == 200) {
           console.log("获取到的红包金额是",res.data.data);

@@ -14,8 +14,8 @@
     "pages/doubleroom/fieldViewRecord/fieldViewRecord",
     "pages/doubleroom/photoList/photoList",
     "pages/doubleroom/creatOrder/creatOrder",
-    "pages/picklist/surveyMap/surveyMap",
     "pages/picklist/surveyList/surveyList",
+    "pages/picklist/surveyMap/surveyMap",
     "pages/picklist/videoAndPicture/videoAndPicture",
     "pages/picklist/redPacket/redPacket"
     

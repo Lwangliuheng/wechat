@@ -15,14 +15,16 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.getOrderList();
-    this.getTopInfo();
+    
     /**
 * 获取路径参数，判断进入的页面。
 */
-    getApp().pathIntercept(options);
+    console.log(options)
+    getApp().data.orderUserId = options.riderId;
+    //getApp().data.orderUserId = "e8a5819e-d74a-11e7-b854-005056c00008";
     console.log(getApp().data.orderUserId, "获取的UserId");
-
+    this.getOrderList();
+    this.getTopInfo();
   },
 
   /**
@@ -50,8 +52,9 @@ Page({
     wx.showLoading({
       title: '加载中...',
     });
-    var mobilePhone = "eac8cb6f-e5a6-4e2e-b741-6bc414fb0576";
-    //var mobilePhone = getApp().data.orderUserId;
+    // var mobilePhone = "eac8cb6f-e5a6-4e2e-b741-6bc414fb0576";
+    console.log(getApp().data.orderUserId,"idididi")
+    var mobilePhone = getApp().data.orderUserId;
     var requesturl = config.RequestAddressPrefix2 + '/rider/v1/me/'+mobilePhone;
     var that = this;
     wx.request({
@@ -84,10 +87,10 @@ Page({
     });
     var data = {
       userId: getApp().data.orderUserId,
-      lng: 116.4694415328,//getApp().data.longitude,
-      lat: 39.8984379793  //getApp().data.latitude
+      lng: getApp().data.longitude,//getApp().data.longitude,
+      lat: getApp().data.latitude //getApp().data.latitude
     };
-    var requesturl = config.RequestAddressPrefix5 + '/order/v1/unconsumed/list';
+    var requesturl = config.RequestAddressPrefix2 + '/order/v1/unconsumed/list';
     var that = this;
     wx.request({
       url: requesturl,
