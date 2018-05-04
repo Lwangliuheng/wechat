@@ -17,6 +17,12 @@ Page({
   onLoad: function (options) {
     this.getOrderList();
     this.getTopInfo();
+    /**
+* 获取路径参数，判断进入的页面。
+*/
+    getApp().pathIntercept(options);
+    console.log(getApp().data.orderUserId, "获取的UserId");
+
   },
 
   /**
