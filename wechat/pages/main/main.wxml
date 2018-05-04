@@ -11,7 +11,8 @@
       <view class='mainHead'>
           <text>快捷 - 舒心</text>
       </view>
-      <view  bindtap='wxConfirm' class="buttonText openClaim">开启理赔</view>
+      <!-- <view  bindtap='wxConfirm' class="buttonText openClaim">开启理赔</view> -->
+      <view  bindtap='confirm' class="buttonText openClaim">开启理赔</view>
    </view>  
     <view class='tips claimBox' wx:for='{{imgArray}}'>
       <image class='selfClaims' mode="widthFix" src='{{item.imgUrl}}'></image>

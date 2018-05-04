@@ -3,7 +3,10 @@
   <view class='input-box'>
        <text class="input-word">报案人手机号</text>
         <text class="default-price y-name" wx:if="{{phoneNumber}}">{{phoneNumber}}</text>
-        <input wx:if="{{!phoneNumber}}" class="input-theme" type='text' bindblur="phoneChang" placeholder='请输入报案人手机号'/> 
+        <input wx:if="{{!phoneNumber}}" class="input-theme" type='text' bindblur="phoneChang" placeholder='请输入报案人手机号'/>
+        <view class="tu-biao" wx:if="{{!phoneState}}">
+          !
+        </view> 
        <view class="both"></view>
   </view>
   <view class='input-box' bindtap='selectChang'>

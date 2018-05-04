@@ -42,6 +42,15 @@ Page({
       },
       success: function (res) {
         if (res.data.rescode == 200){
+          if (res.data.data.userMobilePhone){
+            that.setData({
+              phoneState:true
+            })
+          }else{
+            that.setData({
+              phoneState: false
+            })
+          }
           that.setData({
             isExist: res.data.data.isExist,
             phoneNumber: res.data.data.userMobilePhone,
@@ -146,14 +155,14 @@ Page({
   },
   //选择保险公司
   selectClick(e){
-    if(!this.data.phoneState){
-      wx.showToast({
-        title: '请输入正确手机号',
-        icon: 'success',
-        duration: 1000
-      })
-      return
-    }
+    // if(!this.data.phoneState){
+    //   wx.showToast({
+    //     title: '请输入正确手机号',
+    //     icon: 'success',
+    //     duration: 1000
+    //   })
+    //   return
+    // }
     console.log(e.target.dataset.code,66666666666)
     this.setData({
       selectState: !this.data.selectState,

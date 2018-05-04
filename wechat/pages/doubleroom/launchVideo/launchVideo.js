@@ -2,6 +2,8 @@
 var webimhandler = require('../../../utils/webim_handler.js');
 var webim = require('../../../utils/webim.js');
 var config = require('../../../config');
+
+var bmap = require('../../../lib/bmap-wx.js'); 
 Page({
 
 	/**
@@ -18,7 +20,7 @@ Page({
     tapTime: ''	,	// 防止两次点击操作间隔太快
     selectName: "京",
     provincedata:
-    ['京', '津', '冀', '晋', '蒙', '辽', '吉', '黑', '沪', '苏', '浙', '皖', '闽', '赣', '鲁', '豫', '鄂', '湘', '粤', '贵', '云', '藏', '陕', '甘', '青', '宁', '新', '琼', '渝', '川', '桂']
+    ['京', '津', '冀', '晋', '蒙', '辽', '吉', '黑', '沪', '苏', '浙', '皖', '闽', '赣', '鲁', '豫', '鄂', '湘', '粤', '贵', '云', '藏', '陕', '甘', '青', '宁', '新', '琼', '渝', '川', '桂',"其他"]
 
   },
 
@@ -202,7 +204,6 @@ Page({
     this.setData({
       userName: options.userName || ''
     });
-
   },
 
 	/**
