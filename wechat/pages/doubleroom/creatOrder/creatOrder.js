@@ -15,6 +15,7 @@ Page({
      selectValue: ""//保险公司名称
   },
   onLoad(options) {
+    
     console.log(2222222222)
     //判断是否已经有报案电话
     // this.setData({
@@ -136,11 +137,22 @@ Page({
           console.log(6666666666)
           that.toWeb();
         } else {
-          wx.showToast({
-            title: res.data.resdes,
-            icon: 'success',
-            duration: 1000
+          wx.showModal({
+            title: '提示',
+            content: '该保险公司在此城市未开通自助处理，请拨打955**电话进行报案',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定')
+              } else if (res.cancel) {
+                console.log('用户点击取消')
+              }
+            }
           })
+          // wx.showToast({
+          //   title: res.data.resdes,
+          //   icon: 'success',
+          //   duration: 1000
+          // })
           that.setData({
             createState: false
           })
