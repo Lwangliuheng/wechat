@@ -38,7 +38,8 @@
            
     </view>
   <view class='bottom-btn'> 
-    <button type="primary" bindtap='survey' style="background-color:#2EAB3B;"  hover-class="none">发起视频查勘</button> 
+    <!-- <button type="primary" bindtap='survey' style="background-color:#2EAB3B;"  hover-class="none">发起视频查勘</button>  -->
+     <button type="primary" bindtap='survey' style="background-color:#2EAB3B;"  hover-class="none">下一步</button>  
   </view> 
 </view>
  

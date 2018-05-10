@@ -138,8 +138,13 @@ Page({
           // that.setData({
           //   createState: true
           // })
-          console.log(6666666666)
-          that.toWeb();
+          console.log(6666666666);
+
+          var url = '../videoAndPicture/videoAndPicture';
+          wx.navigateTo({
+            url: url
+          });
+          //that.toWeb();
         } else {
           wx.hideLoading();
           wx.showModal({
@@ -298,7 +303,11 @@ Page({
         this.setCreate()
       }
     }else{
-      this.toWeb()
+      var url = '../videoAndPicture/videoAndPicture';
+      wx.navigateTo({
+        url: url
+      });
+      //this.toWeb()
     }
     
     // if (this.data.phoneState && this.data.selectValue != "" && this.data.createState){

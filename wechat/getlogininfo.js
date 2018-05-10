@@ -53,12 +53,35 @@ function getLoginInfo(options) {
 }
 //小程序註冊
 function register(){
+  //同步获取手机设备信息
+  var weiXinSystemInfo = {};
+  try {
+    var res = wx.getSystemInfoSync();
+    console.log(res.model);
+    console.log(res.pixelRatio);
+    console.log(res.windowWidth);
+    console.log(res.windowHeight);
+    console.log(res.language);
+    console.log(res.version);
+    console.log(res.platform);
+    weiXinSystemInfo = {
+      "brand": res.brand,
+      "model": res.model,
+      "version": res.version,
+      "system": res.system,
+      "platform": res.platform,
+      "sdkVersion": res.SDKVersion
+    };
+  } catch (e) {
+    // Do something when catch error
+  }
   var data = {
     'userType':0,
     "origin": 1,
     'sessionKey': sessionKey,
     "iv": iv,
-    "encryptedData": encryptedData
+    "encryptedData": encryptedData,
+    weiXinSystemInfo: weiXinSystemInfo
   }
   wx.request({
     url: config.RequestAddressPrefix3 + '/weixin/user/api/v1/register',

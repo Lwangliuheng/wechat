@@ -13,6 +13,7 @@
     "pages/doubleroom/roomname/roomname",
     "pages/doubleroom/fieldViewRecord/fieldViewRecord",
     "pages/doubleroom/photoList/photoList",
+    "pages/doubleroom/videoAndPicture/videoAndPicture",
     "pages/doubleroom/creatOrder/creatOrder"
     
   ],
