@@ -45,11 +45,13 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log('订单号', res.data.data.orderNo)
         if (res.data.rescode == 200){
-          if (res.data.data.userMobilePhone){
+          if (res.data.data.orderNo){
             that.setData({
               phoneState:true
             })
+            getApp().data.orderNo = res.data.data.orderNo;
           }else{
             that.setData({
               phoneState: false
@@ -139,7 +141,9 @@ Page({
           //   createState: true
           // })
           console.log(6666666666);
-
+          // 保存orderNo
+          getApp().data.orderNo = res.data.data.orderNo;
+          
           var url = '../videoAndPicture/videoAndPicture';
           wx.navigateTo({
             url: url

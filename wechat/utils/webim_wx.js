@@ -4181,7 +4181,7 @@ var webim = { // namespace object webim
                 }
             };
             if(LongPollingId){
-             console.log(444)
+             // console.log(444)
                 opts.Cookie.LongPollingId = LongPollingId;
                 doPolling();
             }else{

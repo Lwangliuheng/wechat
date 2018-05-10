@@ -29,7 +29,6 @@ Page({
     ],
     markCar: '', // 标的车
     otherCars: [], // 三方车
-    orderNo: '' // 订单号
   },
 
   // 页面初始进来
@@ -42,21 +41,21 @@ Page({
       title: '加载中',
     });
 
-    this.init(getApp().data.orderno);
+    this.init(getApp().data.orderNo);
 
   },
 
   // 预览图片
   prewImage(e){
-    // console.log(e);
-      wx.previewImage({
-        current: '',
-        urls: [e.currentTarget.dataset.img],
-        success: function(res) {},
-        fail: function(res) {},
-        complete: function(res) {},
-      })
-    },
+    console.log(e);
+    wx.previewImage({
+      current: '',
+      urls: [e.currentTarget.dataset.img],
+      success: function(res) {},
+      fail: function(res) {},
+      complete: function(res) {},
+    })
+  },
     // 开始视频连接
   videoLink () {
     // 防止两次点击操作间隔太快
@@ -86,8 +85,8 @@ Page({
     // }
     var data = {
       'formId': getApp().data.formId,
-      "uid": getApp().data.orderUserId,
-      "orderNo": getApp().data.orderno
+      "uid": getApp().data.userId,
+      "orderNo": getApp().data.orderNo
       // "openId": 'o-Xv05cbfCNP3K5 - 22r3u7z67tOU'
     }
     console.log(JSON.stringify(data))
@@ -106,6 +105,7 @@ Page({
         if (res.data.rescode != 200) {
           wx.showToast({
             title: res.data.resdes,
+            icon: 'none',
             duration: 2000
           })
           console.log(res)
@@ -211,7 +211,7 @@ Page({
         
         // 要穿的参数
         let data = {
-          orderNo: that.data.orderNo,
+          orderNo: getApp().data.orderNo,
           photoType: that.data.currentType[0],
           vehicleLicenseNo: that.data.updateCar.vehicleLicenseNo,
           originalVehicleLicenseNo: that.data.updateCar.originalVehicleLicenseNo,

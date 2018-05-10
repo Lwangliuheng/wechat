@@ -1,6 +1,6 @@
 <view class="video-and-picture">
     <view class="record-video">
-        <image src="http://placehold.it/80x60" mode="widthFix"></image>
+        <image src="../../Resources/video.png" mode="widthFix"></image>
         <view class="record-btn" bindtap='videoLink'>开始视频连接</view>
         <!-- <live-player class="record-btn" id='player'>live-player</live-player> -->
         <!-- <live-pusher class="record-btn" id='pusher'>live-pusher</live-pusher> -->
@@ -12,7 +12,7 @@
         <view class='car1-info'>标的车：{{markCar.vehicle.vehicleLicenseNo}}</view>
         <view class='up-pic-box'>
           <view wx:for='{{markCar.photos}}' wx:key="*this" class='image'>
-            <image src='{{item.photoUrl}}' mode='scaleToFill' bindtap='prewImage' data-img='{{photo.photoUrl}}'></image>
+            <image src='{{item.photoUrl}}' mode='scaleToFill' bindtap='prewImage' data-img='{{item.photoUrl}}'></image>
             <view class='describe'>{{item.typeComment}}</view>
           </view>
           <view class='up-pic-btn' bindtap='shopPopup' data-vehicle='{{markCar.vehicle}}'>
