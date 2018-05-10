@@ -8,7 +8,7 @@ Page({
     current: 0, // 类型选中值
     currentType: '', // 上传图片的类型
     updateCar: '', // 要上传图片的车,
-    uid: '', // 公众号传来userid
+    isLinkedVideo: false, // 是否连接过视频
     types:[
       ["0", "45度车辆前景照片"],
       ["1", "当事人和车辆合影"],
@@ -77,17 +77,11 @@ Page({
     wx.showLoading({
       title: '视频连接中',
     })
-    // var data = {
-    //   'formId': getApp().data.formId,
-    //   "orderNo": this.data.orderNo,
-    //   "uid": this.data.uid
-    //   // "openId": 'o-Xv05cbfCNP3K5 - 22r3u7z67tOU'
-    // }
+
     var data = {
       'formId': getApp().data.formId,
       "uid": getApp().data.userId,
       "orderNo": getApp().data.orderNo
-      // "openId": 'o-Xv05cbfCNP3K5 - 22r3u7z67tOU'
     }
     console.log(JSON.stringify(data))
     var requesturl = config.RequestAddressPrefix2 + '/survey/v2/video/connect';
@@ -152,14 +146,25 @@ Page({
       success: function (res) {
         wx.hideLoading();
         if (res.data.rescode == 200) {
-          // console.log("成功了", res.data);
-          that.setData({
-            markCar: res.data.data[0],
-            otherCars: res.data.data.slice(1)
-          })
-          // console.log(that.data.otherCars)
+          // 如果有值
+          if(res.data.data.length){
+            that.setData({
+              isLinkedVideo: true,
+              markCar: res.data.data[0],
+              otherCars: res.data.data.slice(1)
+            })
+          }else {
+            that.setData({
+              isLinkedVideo: false
+            })
+          }
+
         } else {
-          console.error(res);
+          wx.showToast({
+            title: res.data.resdes,
+            icon: 'none',
+            duration: 2000
+          })
         }
       }
     })

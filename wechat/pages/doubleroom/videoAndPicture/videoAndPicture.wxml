@@ -2,11 +2,9 @@
     <view class="record-video">
         <image src="../../Resources/video.png" mode="widthFix"></image>
         <view class="record-btn" bindtap='videoLink'>开始视频连接</view>
-        <!-- <live-player class="record-btn" id='player'>live-player</live-player> -->
-        <!-- <live-pusher class="record-btn" id='pusher'>live-pusher</live-pusher> -->
     </view>
-    <view class='gap'></view>
-    <view class='pics'>
+    <view class='gap' wx:if='{{isLinkedVideo}}'></view>
+    <view class='pics' wx:if='{{isLinkedVideo}}'>
       <view class='title'>拍照取证</view>
       <view class='markCar'>
         <view class='car1-info'>标的车：{{markCar.vehicle.vehicleLicenseNo}}</view>
