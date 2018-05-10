@@ -80,12 +80,13 @@ Page({
 
     var data = {
       'formId': getApp().data.formId,
-      "uid": getApp().data.userId,
-      "orderNo": getApp().data.orderNo
+      "reporterLicenseNo": getApp().data.reporterLicenseNo,
+      "openId": getApp().data.openId
+      // "openId": 'o-Xv05cbfCNP3K5 - 22r3u7z67tOU'
     }
-    console.log(JSON.stringify(data))
-    var requesturl = config.RequestAddressPrefix2 + '/survey/v2/video/connect';
-    console.log(requesturl)
+    
+    var requesturl = config.RequestAddressPrefix2 + '/weixin/survey/api/v1/video/connect';
+   
     var self = this;
     wx.request({
       url: requesturl,
