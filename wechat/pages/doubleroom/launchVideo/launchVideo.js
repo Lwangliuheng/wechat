@@ -259,7 +259,7 @@ Page({
       "lng": getApp().data.longitude,
       "lat": getApp().data.latitude
     }
-    var requesturl = config.RequestAddressPrefix2 + 'application/json';
+    var requesturl = config.RequestAddressPrefix2 + '/province/v1/shortName';
     var that = this;
     wx.request({
       url: requesturl,
@@ -291,7 +291,7 @@ Page({
           otherPlatesState: true,
           selectName: "其他"
         });
-        console.log(res.data.data, "车牌没有获取到");
+        console.log("车牌没有获取到");
         // wx.showToast({
         //   title: '获取位置失败',
         //   icon: 'success',

@@ -52,6 +52,7 @@ App({
     seletoID:  '',//webid
     roomID: '',//房间id
     openId: '',//
+    orderNo:'',
     requestUrl :"https://survey.zhongchebaolian.com/boot-xcx-survey-api",//请求地址
     unionId:"",
     userType: "",
