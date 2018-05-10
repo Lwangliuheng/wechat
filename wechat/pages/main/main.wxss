@@ -5,13 +5,13 @@
   margin: 0;
   padding: 0;
   position:fixed;
-  top: 0;  
+  top: 0; 
   background-color:#fff;  
   z-index: 10; 
 }
 .tips{
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 20rpx;
   
 }
 .tips .mainLogo{
@@ -21,7 +21,7 @@
 .claimBox{
   width: 90%;
   margin: 0 auto;
-  margin-bottom: 15px;
+  margin-bottom: 15rpx;
 }
 .selfClaims{
   width: 100%;
@@ -32,64 +32,64 @@
   position: absolute;
   top:10vh;
   color: #fff;
-  padding-left: 35px;
+  padding-left: 35rpx;
 }
 .mainHeadtext{
   position: absolute;
    top:16vh;
-   padding-left: 45px;
+   padding-left: 45rpx;
    color: #fff;
    font-size: 16px;
-   line-height:30px;
+   line-height:30rpx;
 }
 .mainTop{
   font-size: 18px;
   font-weight: 600;
   position: absolute;
-  top:15px;
+  top:15rpx;
   color: #fff;
-  padding-left: 35px;
+  padding-left: 35rpx;
 }
 .mainHead{
   position: absolute;
-   top:45px;
-   padding-left: 45px;
+   top:90rpx;
+   padding-left: 45rpx;
    color: #fff;
    font-size: 16px;
-   line-height:30px;
+   line-height:30rpx;
 }
 .buttonText{
   border: 1px solid #fff;
-  border-radius: 22px;
+  border-radius: 22rpx;
   color: #fff;
   position: absolute;
-  top: 50px;
-  padding: 6px 12px;
+  top: 90rpx;
+  padding: 16rpx 30rpx;
   text-align: center;
-  margin-left: 35px;
+  margin-left: 35rpx;
 }
 .openClaim{
-  top: 84px;
+  top: 150rpx;
 }
 .inputBox{
   display:flex;
-  margin: 10vw 20px;
+  margin: 10vw 20rpx;
 }
 .buttonBox{
   margin-top: 20vw;
 }
 .lableText{
   display:inline-block;
-  line-height: 35px;
-  padding-right:8px;
+  line-height: 35rpx;
+  padding-right:8rpx;
 }
 .inputtelBox{
-  height:35px;
+  height:35rpx;
   border:1px solid #bbb;
   width: 60vw;
   text-align: left;
-  text-indent: 3px;
-  border-radius: 6px;
+  text-indent: 3rpx;
+  border-radius: 6rpx;
 }
 .loginIn{
   color:#fff;
@@ -114,7 +114,7 @@
   width: 30vw;
   height: 30vw;
   text-align: center;
-  margin: 1.5px;
+  margin: 1.5rpx;
   vertical-align: top;
 }
 .guide-nomore-bk {
@@ -122,18 +122,18 @@
 }
 .guide_icon {
   display: block;
-  width: 36px; 
-  height: 36px; 
-  margin:20px auto 0;
+  width: 36rpx; 
+  height: 36rpx; 
+  margin:20rpx auto 0;
 }
 .guide_label {
   display: block;
-  margin-top: 10px;
+  margin-top: 10rpx;
   color: #CFE4FF;
   font-size: 14px;
 }
 .guide_nomore_label {
-  margin-top: 30px;
+  margin-top: 30rpx;
   color: rgba(256, 256, 256, 0.3);
   font-size: 14px;
 }

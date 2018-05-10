@@ -10,6 +10,7 @@ Page({
 	 * 页面的初始数据
 	 */
   data: {
+    otherPlatesState:false,
     reporterLicenseNoStaet:false,
     reporterLicenseNo: '',
     showCityDialog: true,
@@ -43,28 +44,56 @@ Page({
   // 双向绑定
   LicenseNoInput(e) {
     var r = /^[a-zA-Z\d]{6,8}$/;
-    if (!r.test(e.detail.value)){
-      wx.showToast({
-        title: '请输入正确的车辆车牌',
-        icon: 'success',
-        duration: 1000
-      })
-      this.setData({
-        reporterLicenseNoStaet: false
-      });
-      return;
-    }
-    if (e.detail.value.length>8){
-      this.setData({
-        reporterLicenseNoStaet:true,
-        reporterLicenseNo: e.detail.value.toUpperCase().substring(0,8)
-      });
+    console.log(!this.data.otherPlatesState)
+    console.log(e.detail.value.length,"shuju")
+    if (!this.data.otherPlatesState){
+     
+      if (!r.test(e.detail.value) && !this.data.otherPlatesState) {
+        wx.showToast({
+          title: '请输入正确的车辆车牌',
+          icon: 'success',
+          duration: 1000
+        })
+        this.setData({
+          reporterLicenseNoStaet: false,
+          reporterLicenseNo: e.detail.value.toUpperCase().substring(0, 8)
+        });
+        return;
+      };
+
+      if (e.detail.value.length > 8 && !this.data.otherPlatesState) {
+        //非其他车牌限制
+        this.setData({
+          reporterLicenseNoStaet: true,
+          reporterLicenseNo: e.detail.value.toUpperCase().substring(0, 8)
+        });
+      } else {
+        this.setData({
+          reporterLicenseNoStaet: true,
+          reporterLicenseNo: e.detail.value.toUpperCase()
+        });
+      }
     }else{
-      this.setData({
-        reporterLicenseNoStaet: true,
-        reporterLicenseNo: e.detail.value.toUpperCase()
-      });
+      if (e.detail.value.length > 0){
+        console.log("非其他车牌限制")
+        //非其他车牌限制
+        this.setData({
+          reporterLicenseNoStaet: true,
+          reporterLicenseNo: e.detail.value.toUpperCase()
+        });
+      }else{
+        wx.showToast({
+          title: '请输入正确的车辆车牌',
+          icon: 'success',
+          duration: 1000
+        })
+        this.setData({
+          reporterLicenseNoStaet: false,
+          reporterLicenseNo: e.detail.value.toUpperCase()
+        });
+      }
     }
+    
     console.log(this.data.reporterLicenseNo)
   },
   //选择城市简称
@@ -76,30 +105,52 @@ Page({
   selectCity: function (event) {
     var self = this;
     var selectName = event.currentTarget.id;
-    self.setData({
-      selectName: selectName
-    });
+    console.log(selectName,"地区名字")
+    if (selectName == "其他"){
+      console.log("选择其他")
+      self.setData({
+        otherPlatesState: true,
+        selectName: selectName
+      });
+    }else{
+      self.setData({
+        otherPlatesState: false,
+        selectName: selectName
+      });
+    };
     self.setData({
       showCityDialog: true
     })
   },
   
   videoConnect: function(){
-    if (this.data.reporterLicenseNo == '' || this.data.reporterLicenseNo == undefined || !this.data.reporterLicenseNoStaet){
+    if (!this.data.otherPlatesState){
+      if (this.data.reporterLicenseNo == '' || this.data.reporterLicenseNo == undefined || !this.data.reporterLicenseNoStaet) {
         wx.showToast({
           title: '请输入车牌号',
           icon: 'success',
           duration: 1000
         })
         return
-    } else if (this.data.reporterLicenseNo.length < 5){
-      wx.showToast({
-        title: '请输入正确车牌号',
-        icon: 'success',
-        duration: 1000
-      })
-      return
+      } else if (this.data.reporterLicenseNo.length < 5 && !this.data.otherPlatesState) {
+        wx.showToast({
+          title: '请输入正确车牌号',
+          icon: 'success',
+          duration: 1000
+        })
+        return
+      }
+    }else{
+      if (this.data.reporterLicenseNo == '' || this.data.reporterLicenseNo == undefined){
+        wx.showToast({
+          title: '请输入车牌号',
+          icon: 'success',
+          duration: 1000
+        })
+        return
+      }
     }
+    
     var formId = getApp().data.formId;
     // var formId = 'f4dd1acfea5b9606a1527eb298ff4f1'
     console.log('openId'+getApp().data.openId)
@@ -200,7 +251,7 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
   onLoad: function (options) {
-  
+
     this.setData({
       userName: options.userName || ''
     });

@@ -20,7 +20,8 @@
 .tanProvince .text{
     padding: 15px;
     width: 90%;
-    height: 50vh;
+    overflow: hidden;
+    /* height: 65vh; */
     margin: 20vh auto;
     background: #fff;
     color: #232323;

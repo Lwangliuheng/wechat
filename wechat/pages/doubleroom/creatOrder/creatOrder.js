@@ -1,8 +1,9 @@
 // // pages/doubleroom/creatOrder/creatOrder.js
 var config = require('../../../config');
+var phoneData = require('../../../lib/phoneData.js'); 
 Page({
   data: {
-    tapTime: '',	// 防止两次点击操作间隔太快
+     tapTime: '',	// 防止两次点击操作间隔太快
      isExist: 1, //0 - 存在 ， 1 - 不存在 
      phoneNumber: "",//报案人电话
      insuranceCompany: "",//保险公司
@@ -12,11 +13,13 @@ Page({
      phoneState:false,//手机号输入状态
      selectState:false,//保险公司选择状态
      insuranceCompanys:[],//保险公司列表
-     selectValue: ""//保险公司名称
+     selectValue: "",//保险公司名称
+     hotLine:""//热线电话
   },
   onLoad(options) {
     
     console.log(2222222222)
+    //console.log(phoneData)
     //判断是否已经有报案电话
     // this.setData({
     //   insuranceCompany: getApp().data.insuranceCompany,
@@ -51,7 +54,8 @@ Page({
             that.setData({
               phoneState: false
             })
-          }
+          };
+          console.log(res.data.data.insuranceCompanys,"保险公司列表")
           that.setData({
             isExist: res.data.data.isExist,
             phoneNumber: res.data.data.userMobilePhone,
@@ -137,9 +141,10 @@ Page({
           console.log(6666666666)
           that.toWeb();
         } else {
+          wx.hideLoading();
           wx.showModal({
             title: '提示',
-            content: '该保险公司在此城市未开通自助处理，请拨打955**电话进行报案',
+            content: '该保险公司在此城市未开通自助处理，请拨打' + that.data.hotLine+'电话进行报案',
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定')
@@ -147,7 +152,8 @@ Page({
                 console.log('用户点击取消')
               }
             }
-          })
+          });
+
           // wx.showToast({
           //   title: res.data.resdes,
           //   icon: 'success',
@@ -175,11 +181,25 @@ Page({
     //   })
     //   return
     // }
-    console.log(e.target.dataset.code,66666666666)
+    
+    console.log(e.target.dataset.code,66666666666);
+    console.log(phoneData[e.target.dataset.code],7777);
+    // wx.showModal({
+    //   title: '提示',
+    //   content: '该保险公司在此城市未开通自助处理，请拨打' + phoneData[e.target.dataset.code] + '电话进行报案',
+    //   success: function (res) {
+    //     if (res.confirm) {
+    //       console.log('用户点击确定')
+    //     } else if (res.cancel) {
+    //       console.log('用户点击取消')
+    //     }
+    //   }
+    // });
     this.setData({
       selectState: !this.data.selectState,
       code: e.target.dataset.code,
-      selectValue: e.target.dataset.me
+      selectValue: e.target.dataset.me,
+      hotLine: phoneData[e.target.dataset.code]
     })
    
     // this.setData({

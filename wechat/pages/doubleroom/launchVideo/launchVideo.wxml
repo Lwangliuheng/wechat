@@ -13,7 +13,7 @@
           <view class='bottom-btn'> 
             <button type="primary" formType="submit" style="background-color:#2EAB3B;"  hover-class="none">下一步</button>
             <!-- <button type="primary" formType="submit" style="background-color:#2EAB3B;"  hover-class="none">发起视频查勘</button> -->
-            <view class='warm'>温馨提示：车险理赔前请先拨打保险公司电话进行报案</view>
+            <!-- <view class='warm'>温馨提示：车险理赔前请先拨打保险公司电话进行报案</view> -->
           </view> 
     </form> 
     <view id="tanwinProvince" hidden="{{showCityDialog}}" class="tanProvince"> 
