@@ -3,6 +3,8 @@ var rtcroom = require('../../utils/rtcroom.js');
 var getlogininfo = require('../../getlogininfo.js');
 var currentSDKVersion = '';
 var SDKVersion = '', model = '';
+
+var config = require('../../config');
 Page({
 
   /**
@@ -91,7 +93,9 @@ Page({
       // 先获取登录信息
       var self = this;
       //注册接口：
-      self.register()
+      //self.register();
+
+      self.getPlateNumber();
     }
   },
   register: function () {
@@ -101,6 +105,44 @@ Page({
     // var toUrl = '../doubleroom/roomlist/roomlist';
     wx.navigateTo({
       url: toUrl,
+    });
+  },
+  //获取车牌号
+  getPlateNumber(){
+    wx.showLoading({
+      title: '加载中……',
+      mask: false
+    });
+    var data = {
+      "lng": getApp().data.longitude,
+      "lat": getApp().data.latitude
+    }
+    var requesturl = config.RequestAddressPrefix2 + '/province/v1/shortName'; 
+    var that = this;
+    wx.request({
+      url: requesturl,
+      method: "POST",
+      data: data,
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        wx.hideLoading();
+        if (res.data.rescode == 200) {
+          getApp().data.selectName = res.data.data;
+        } else {
+          getApp().data.selectName = "";
+        }
+        that.register();
+      },
+      fail: function () {
+        getApp().data.selectName = "";
+        // wx.showToast({
+        //   title: '获取位置失败',
+        //   icon: 'success',
+        //   duration: 1000
+        // })
+      }
     });
   },
   onEntryTap: function (e) {

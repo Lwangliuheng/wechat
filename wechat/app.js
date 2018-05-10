@@ -68,6 +68,7 @@ App({
     reporterLicenseNo: "",
     latitude: "",
     longitude:"",
+    selectName:"",//车牌号
     insuranceCompanyList:"" 
   } 
 })
