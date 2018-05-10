@@ -251,54 +251,67 @@ Page({
 	 * 生命周期函数--监听页面加载
 	 */
   onLoad: function (options) {
-    wx.showLoading({
-      title: '加载中……',
-      mask: true
-    });
-    var data = {
-      "lng": getApp().data.longitude,
-      "lat": getApp().data.latitude
-    }
-    var requesturl = config.RequestAddressPrefix2 + 'application/json';
-    var that = this;
-    wx.request({
-      url: requesturl,
-      method: "POST",
-      data: data,
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        wx.hideLoading();
-        if (res.data.rescode == 200) {
-          that.setData({
-            showCityDialog:true,
-            selectName: res.data.data
-          });
-          console.log(res.data.data,"车牌前缀");
-        }else{
-          that.setData({
+    var selectName =  getApp().data.selectName;
+    if (selectName){
+      this.setData({
+        showCityDialog:true,
+        selectName: selectName
+      });
+    }else{
+      this.setData({
             showCityDialog: true,
             otherPlatesState: true,
             selectName: "其他"
-          });
-          console.log(res.data.data, "车牌没有获取到");
-        } 
-      },
-      fail: function () {
-        that.setData({
-          showCityDialog: true,
-          otherPlatesState: true,
-          selectName: "其他"
-        });
-        console.log(res.data.data, "车牌没有获取到");
-        // wx.showToast({
-        //   title: '获取位置失败',
-        //   icon: 'success',
-        //   duration: 1000
-        // })
-      }
-    });
+      });
+    }
+    // wx.showLoading({
+    //   title: '加载中……',
+    //   mask: false
+    // });
+    // var data = {
+    //   "lng": getApp().data.longitude,
+    //   "lat": getApp().data.latitude
+    // }
+    // var requesturl = config.RequestAddressPrefix2 + 'application/json';
+    // var that = this;
+    // wx.request({
+    //   url: requesturl,
+    //   method: "POST",
+    //   data: data,
+    //   header: {
+    //     'content-type': 'application/json' // 默认值
+    //   },
+    //   success: function (res) {
+    //     wx.hideLoading();
+    //     if (res.data.rescode == 200) {
+    //       that.setData({
+    //         showCityDialog:true,
+    //         selectName: res.data.data
+    //       });
+    //       console.log(res.data.data,"车牌前缀");
+    //     }else{
+    //       that.setData({
+    //         showCityDialog: true,
+    //         otherPlatesState: true,
+    //         selectName: "其他"
+    //       });
+    //       console.log(res.data.data, "车牌没有获取到");
+    //     } 
+    //   },
+    //   fail: function () {
+    //     that.setData({
+    //       showCityDialog: true,
+    //       otherPlatesState: true,
+    //       selectName: "其他"
+    //     });
+    //     console.log(res.data.data, "车牌没有获取到");
+    //     // wx.showToast({
+    //     //   title: '获取位置失败',
+    //     //   icon: 'success',
+    //     //   duration: 1000
+    //     // })
+    //   }
+    // });
 
     
     this.setData({
