@@ -50,7 +50,8 @@ Page({
           if (res.data.data.orderNo){
             that.setData({
               phoneState:true
-            })
+            });
+            console.log(res.data.data.orderNo,"公司列表")
             getApp().data.orderNo = res.data.data.orderNo;
           }else{
             that.setData({
@@ -142,6 +143,7 @@ Page({
           // })
           console.log(6666666666);
           // 保存orderNo
+          console.log(res.data.data.orderNo,"保存orderNo")
           getApp().data.orderNo = res.data.data.orderNo;
           
           var url = '../videoAndPicture/videoAndPicture';

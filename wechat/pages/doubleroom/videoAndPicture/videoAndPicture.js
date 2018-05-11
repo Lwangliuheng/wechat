@@ -141,8 +141,9 @@ Page({
   // 初始函数
   init (orderNo) {
     var that = this;
+    console.log(orderNo)
     wx.request({
-      url: config.RequestAddressPrefix2 + `/survey/v1/photo/${orderNo}`,
+      url: config.RequestAddressPrefix2 + '/survey/v1/photo/' + orderNo,
       method: "GET",
       success: function (res) {
         wx.hideLoading();
@@ -256,7 +257,7 @@ Page({
                 wx.hideLoading();
                 // 调用初始化接口异步刷新页面
                 that.init(getApp().data.orderNo);
-
+          
                 // that.setData({
                 //   markCar: JSON.parse(res.data).data[0],
                 //   otherCars: JSON.parse(res.data).data.slice(1)

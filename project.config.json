@@ -6,7 +6,7 @@
 	"appid": "wx1dd9515a80f6187d",
 	"projectname": "wechat1.0.1",
 	"setting": {
-		"urlCheck": false,
+		"urlCheck": true,
 		"es6": true,
 		"postcss": true,
 		"minified": false,
