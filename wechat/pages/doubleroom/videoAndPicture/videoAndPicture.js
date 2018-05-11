@@ -212,9 +212,14 @@ Page({
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-
         var tempFilePath = res.tempFilePaths[0];
         
+        // 弹窗显示加载中
+        wx.showLoading({
+          title: '图片上传中',
+          mask: true
+        })
+
         // 要穿的参数
         let data = {
           orderNo: getApp().data.orderNo,
@@ -248,9 +253,18 @@ Page({
               // console.log(res.data)
               //do something
               if (JSON.parse(res.data).rescode == 200) {
-                that.setData({
-                  markCar: JSON.parse(res.data).data[0],
-                  otherCars: JSON.parse(res.data).data.slice(1)
+                wx.hideLoading();
+                // 调用初始化接口异步刷新页面
+                that.init(getApp().data.orderNo);
+
+                // that.setData({
+                //   markCar: JSON.parse(res.data).data[0],
+                //   otherCars: JSON.parse(res.data).data.slice(1)
+                // })
+              }else {
+                wx.showToast({
+                  title: JSON.parse(res.data).resdes,
+                  icon: 'none'
                 })
               }
             }
