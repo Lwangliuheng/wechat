@@ -1,5 +1,4 @@
 .video-and-picture {
-  height: 100%;
   background: #fff;
   position: relative;
 }

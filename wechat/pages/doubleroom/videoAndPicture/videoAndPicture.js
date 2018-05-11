@@ -30,18 +30,23 @@ Page({
     markCar: '', // 标的车
     otherCars: [], // 三方车
   },
-
-  // 页面初始进来
-  onLoad() {
-    // this.setData({
-    //   orderNo: 'b21732c618934fa987fc659d261ef1be'
-    // })
-
+  // 在视频链接返回时，进入再次触发加载图片
+  onShow(){
     wx.showLoading({
       title: '加载中',
     });
 
     this.init(getApp().data.orderNo);
+  },
+
+  // 页面初始进来
+  onLoad() {
+
+    // wx.showLoading({
+    //   title: '加载中',
+    // });
+
+    // this.init(getApp().data.orderNo);
 
   },
 
@@ -254,7 +259,6 @@ Page({
               //do something
               if (JSON.parse(res.data).rescode == 200) {
                 wx.hideLoading();
-                // 调用初始化接口异步刷新页面
                 that.init(getApp().data.orderNo);
 
                 // that.setData({
