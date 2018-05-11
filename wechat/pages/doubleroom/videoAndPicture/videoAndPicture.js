@@ -257,7 +257,6 @@ Page({
                 wx.hideLoading();
                 // 调用初始化接口异步刷新页面
                 that.init(getApp().data.orderNo);
-          
                 // that.setData({
                 //   markCar: JSON.parse(res.data).data[0],
                 //   otherCars: JSON.parse(res.data).data.slice(1)

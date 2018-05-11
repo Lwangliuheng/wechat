@@ -73,8 +73,10 @@ function register(){
       "sdkVersion": res.SDKVersion
     };
   } catch (e) {
+    console.log("没有获取到信息")
     // Do something when catch error
   }
+  console.log("获取到信息")
   var data = {
     'userType':0,
     "origin": 1,
