@@ -693,6 +693,9 @@ function proto_createRoom(options) {
       console.log('创建房间成功roomID' + ret.data.roomID);
       getApp().data.toWebData.videoRoomId = ret.data.roomID;
       getApp().data.toWebData.source = 'wechat';
+      //添加经纬度
+      getApp().data.toWebData.latitude = getApp().data.latitude;
+      getApp().data.toWebData.longitude = getApp().data.longitude;
       //创建房间并向web端发送消息
       toWebData = JSON.stringify(getApp().data.toWebData);
       

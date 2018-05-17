@@ -27,9 +27,9 @@ Component({
     var self = this;
     self.timer = setInterval(() => {
       self.changeLingkLoading();
-      if (getApp().data.takePhone == 'WEB$$takePic'){
-        self.receivephone();
-      }
+      // if (getApp().data.takePhone == 'WEB$$takePic'){
+      //   self.receivephone();
+      // }
     }, 500)
     // self.timer = setInterval(self.changeLingkLoading(), 1000)
   },
@@ -134,7 +134,7 @@ Component({
       console.log('getPushURL1')
       rtcroom.getPushURL({
         success: function (ret) {
-          console.log(ret.pushURL)
+          console.log(ret.pushURL,"推流地址")
           self.setData({
             pushURL: ret.pushURL
           });
@@ -243,7 +243,7 @@ Component({
     },
     // 推流事件 
     onPush: function(e) {
-     
+      console.log("触发推流事件")
       var self = this;
       if (!self.data.pusherContext) {
         self.data.pusherContext = wx.createLivePusherContext('rtcpusher');

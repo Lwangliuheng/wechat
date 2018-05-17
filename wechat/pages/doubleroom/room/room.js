@@ -53,7 +53,6 @@ Page({
   },
   takePhone() {
     var that = this;
-    var cameraContext = wx.createCameraContext('myc');
     var pusherContent = wx.createLivePusherContext('rtcpusher');
     var playerContent = wx.createLivePlayerContext('rtcplayer');
     var SDKVersion = '', model = "";
@@ -66,7 +65,10 @@ Page({
     var currentSDKVersion = webimhandler.compareVersion(SDKVersion, '1.9.0');
     console.log(SDKVersion)
     if (currentSDKVersion > 0) {
-      getApp().data.LoadingtakePhone = true;
+      wx.showLoading({
+        // title: '',
+      });
+      // getApp().data.LoadingtakePhone = true;
       pusherContent.snapshot({
         success(res) {
           console.log("图片路径11" + res);
@@ -81,84 +83,9 @@ Page({
         content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后再试。',
         showCancel: false
       });
-      // var cameraContext = wx.createCameraContext('myc');
-      // var pusherContent = wx.createLivePusherContext('rtcpusher');
-      // pusherContent.pause();
-      // var playerContent = wx.createLivePlayerContext('rtcplayer');
-      // playerContent.stop();
-      // getApp().data.LoadingtakePhone = true;
-      // setTimeout(function () {
-      //   cameraContext.takePhoto({
-      //     quality: 'low',
-      //     success: function (res) {
-      //       // var filePath = res.tempImagePath[0];
-      //       console.log("图片路径" + res.tempImagePath);
-      //       tempFilePaths = res.tempImagePath;
-      //       that.uploadFileOpt(res.tempImagePath);
-      //     },
-      //     fail: function (error) {
-      //       console.error("拍照失败")
-      //       console.warn("拍照失败原因:" + error)
-      //     },
-      //     complete: function () {
-      //       console.log("完成");
-      //       pusherContent.resume();
-      //       playerContent.play();
-      //     }
-      //   });
-
-      // }, 1000);
     }
   },
-  drawCanvas(filesrc) {  // 缩放图片
-    console.log("drawCanvas:",filesrc)
-    const ctx = wx.createCanvasContext('attendCanvasId');
-    console.log("ctx:", filesrc)
-    let that = this;
-    wx.getImageInfo({
-      src: filesrc,
-      success: function (res) {
-        console.log(res)
-        // if (res.width > 200 || res.height > 200) {//判断图片是否超过500像素
-        //   let scale = res.width / res.height//获取原图比例
-        //   console.log("scale2:",scale)
-        //   that.setData({//构造画板宽高
-        //     canWidth: 200,
-        //     canHeight: 200 / scale
-        //   })
-        //   console.log(that.data.canWidth);
-        //   console.log(that.data.canHeight);
-        //   ctx.drawImage(filesrc, 0, 0, that.data.canWidth, that.data.canHeight);
-        //   console.log("drawImage:", scale)
-        //   var st = setTimeout(function () {
-        //     console.log("setTimeout:", scale)
-        //      ctx.draw();
-        //       console.log("draw:", scale)
-        //       var st1 = setTimeout(function () {
-        //         wx.canvasToTempFilePath({
-        //           fileType: "jpg",
-        //           canvasId: 'attendCanvasId',
-        //           success: function (res) {
-        //             console.log("压缩后：" + res.tempFilePath);
-        //             that.uploadFileOpt(res.tempFilePath);
-        //           },
-        //           fail: function (res) {
-        //             console.log(res);
-        //           }
-        //         })
-        //         clearTimeout(st1);
-        //       }, 1000);
-               
-        //     clearTimeout(st);
-        //   }, 1000);
-
-        // } else {
-          // that.uploadFileOpt(res.tempFilePath);
-        that.uploadFileOpt(filesrc);
-        // }
-      }
-    })
-  },
+  
   //上傳照片
   uploadFileOpt(tempFilePath) {
     console.log(tempFilePath);
@@ -174,19 +101,19 @@ Page({
       header: { "Content-Type": "multipart/form-data" },
       success: function (res) {
         var nowTime = new Date();
-        console.log(nowTime)
-        console.log("图片保保存成功1:" + res.data);
-        getApp().data.LoadingtakePhone = false;
+        
+        wx.hideLoading();
+        // getApp().data.LoadingtakePhone = false;
         res.data = JSON.parse(res.data);
-        console.log(res.data.rescode)
-        console.log("图片保保存成功11:" + res.data);
+        
         res.data.data.imgurl = 'img';
         res.data.data.latitude = getApp().data.latitude;
         res.data.data.longitude = getApp().data.longitude
         res.data.data.source = 'wechat';
         var data = JSON.stringify(res.data.data)
         console.log("图片保保存成功:" + data);
-        webimhandler.sendCustomMsgtext(data)
+        //发送im
+        webimhandler.sendCustomMsgtext(data);
       },
       fail: function (error) {
         console.error("图片保存出错")

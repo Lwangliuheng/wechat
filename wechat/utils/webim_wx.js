@@ -4171,8 +4171,7 @@ var webim = { // namespace object webim
 
         //长轮询
         this.longPolling = function (cbOk, cbErr) {
-
-
+           
             var opts = {
                 'Timeout': longPollingDefaultTimeOut/1000,
                 'Cookie': {
@@ -4181,7 +4180,7 @@ var webim = { // namespace object webim
                 }
             };
             if(LongPollingId){
-             // console.log(444)
+              console.log(44444)
                 opts.Cookie.LongPollingId = LongPollingId;
                 doPolling();
             }else{
@@ -4197,7 +4196,6 @@ var webim = { // namespace object webim
                 proto_longPolling(opts, function (resp) {
                     for (var i in resp.EventArray) {
                         var e = resp.EventArray[i];
-                       
                         switch (e.Event) {
                             case LONG_POLLINNG_EVENT_TYPE.C2C://c2c消息通知
                                 //更新C2C消息通知seq

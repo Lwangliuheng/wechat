@@ -11,25 +11,27 @@ function getLoginInfo(options) {
     success: function (res) {
       if (res.code) {
         options.code = res.code;
+        //xg
+        proto_getLoginInfo(options);
         // 获取用户信息
-        wx.getUserInfo({
-          withCredentials: true,
-          success: function (ret) {
-            encryptedData = ret.encryptedData;
-            iv = ret.iv;
-            getApp().data.nickName = ret.userInfo.nickName;
-            getApp().data.gender = ret.userInfo.gender;
-            getApp().data.city = ret.userInfo.city;
-            getApp().data.province = ret.userInfo.province;
-            getApp().data.country = ret.userInfo.country;
-            getApp().data.avatarUrl = ret.userInfo.avatarUrl;
-            options.userName = ret.userInfo.nickName;
-            proto_getLoginInfo(options);
-          },
-          fail: function() {
-            proto_getLoginInfo(options);
-          }
-        });
+        // wx.getUserInfo({
+        //   withCredentials: true,
+        //   success: function (ret) {
+        //     encryptedData = ret.encryptedData;
+        //     iv = ret.iv;
+        //     getApp().data.nickName = ret.userInfo.nickName;
+        //     getApp().data.gender = ret.userInfo.gender;
+        //     getApp().data.city = ret.userInfo.city;
+        //     getApp().data.province = ret.userInfo.province;
+        //     getApp().data.country = ret.userInfo.country;
+        //     getApp().data.avatarUrl = ret.userInfo.avatarUrl;
+        //     options.userName = ret.userInfo.nickName;
+        //     proto_getLoginInfo(options);
+        //   },
+        //   fail: function() {
+        //     proto_getLoginInfo(options);
+        //   }
+        // });
       } else {
         console.log('获取用户登录态失败！' + res.errMsg);
         options.fail && options.fail({
@@ -51,8 +53,9 @@ function getLoginInfo(options) {
     }
   });
 }
-//小程序註冊
-function register(){
+
+//小程序註冊 xg
+function register() {
   //同步获取手机设备信息
   var weiXinSystemInfo = {};
   try {
@@ -78,16 +81,14 @@ function register(){
   }
   console.log("获取到信息")
   var data = {
-    'userType':0,
+    'openId': getApp().data.openId,
+    'userType': 1,
     "origin": 1,
-    'sessionKey': sessionKey,
-    "iv": iv,
-    "encryptedData": encryptedData,
     weiXinSystemInfo: weiXinSystemInfo
   }
   wx.request({
-    url: config.RequestAddressPrefix3 + '/weixin/user/api/v1/register',
-    data:data,
+    url: config.RequestAddressPrefix3 + '/weixin/user/api/v2/register',
+    data: data,
     method: 'POST',
     header: {
       'content-type': 'application/json'// 默认值
@@ -99,6 +100,54 @@ function register(){
     }
   });
 }
+//小程序註冊
+// function register(){
+//   //同步获取手机设备信息
+//   var weiXinSystemInfo = {};
+//   try {
+//     var res = wx.getSystemInfoSync();
+//     console.log(res.model);
+//     console.log(res.pixelRatio);
+//     console.log(res.windowWidth);
+//     console.log(res.windowHeight);
+//     console.log(res.language);
+//     console.log(res.version);
+//     console.log(res.platform);
+//     weiXinSystemInfo = {
+//       "brand": res.brand,
+//       "model": res.model,
+//       "version": res.version,
+//       "system": res.system,
+//       "platform": res.platform,
+//       "sdkVersion": res.SDKVersion
+//     };
+//   } catch (e) {
+//     console.log("没有获取到信息")
+//     // Do something when catch error
+//   }
+//   console.log("获取到信息")
+//   var data = {
+//     'userType':0,
+//     "origin": 1,
+//     'sessionKey': sessionKey,
+//     "iv": iv,
+//     "encryptedData": encryptedData,
+//     weiXinSystemInfo: weiXinSystemInfo
+//   }
+//   wx.request({
+//     url: config.RequestAddressPrefix3 + '/weixin/user/api/v1/register',
+//     data:data,
+//     method: 'POST',
+//     header: {
+//       'content-type': 'application/json'// 默认值
+//     },
+//     success: function (ret) {
+//       console.log(JSON.stringify(ret))
+//     },
+//     fail: function (ret) {
+//     }
+//   });
+// }
 // 调用后台获取登录信息接口
 function proto_getLoginInfo(options) {
   console.log(options.code )

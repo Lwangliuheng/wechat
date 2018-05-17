@@ -65,7 +65,7 @@ function compareVersion(v1, v2) {
 //          console.log('234监听新消息', newMsg);
 //      }
 //  }
-
+  //im事件回调
  function onMsgNotify(newMsgList) {
    console.info('监听新消息事件 =====> ' + newMsgList);
    //            console.warn('监听新消息事件 =====> ' + newMsgList);
@@ -93,7 +93,8 @@ function compareVersion(v1, v2) {
        getApp().data.changeLingkLoading = false;
      }
      if (dataString == 'WEB$$takePic') {//拍照
-       getApp().data.takePhone = 'WEB$$takePic';
+      //  getApp().data.takePhone = 'WEB$$takePic';
+       takePhone();
      }
      if (dataString == 'hangup'){//收到对方挂断
        wx.navigateBack({
@@ -112,6 +113,78 @@ function compareVersion(v1, v2) {
        //                    updateSessDiv(sess.type(), sess.id(), sess.unread());
      }
    }
+ }
+
+ function takePhone() {
+   var that = this;
+   var pusherContent = wx.createLivePusherContext('rtcpusher');
+   var playerContent = wx.createLivePlayerContext('rtcplayer');
+   var SDKVersion = '', model = "";
+   wx.getSystemInfo({
+     success: function (res) {
+       SDKVersion = res.SDKVersion;
+       model = res.model;
+     }
+   })
+   var currentSDKVersion = compareVersion(SDKVersion, '1.9.0');
+   console.log(SDKVersion)
+   if (currentSDKVersion > 0) {
+     wx.showLoading({
+       // title: '',
+     });
+     // getApp().data.LoadingtakePhone = true;
+     pusherContent.snapshot({
+       success(res) {
+         console.log("图片路径11" + res);
+         console.log("图片路径22" + res.tempImagePath);
+         // that.drawCanvas(res.tempImagePath)
+         uploadFileOpt(res.tempImagePath);
+       }
+     })
+   } else {
+     wx.showModal({
+       title: '提示',
+       content: '当前微信版本过低，无法使用该功能，请升级到最新微信版本后再试。',
+       showCancel: false
+     });
+   }
+ }
+ //上傳照片
+ function uploadFileOpt(tempFilePath) {
+   console.log(tempFilePath);
+   var nowTime = new Date();
+   var that = this;
+   console.log(nowTime)
+   //保存图片到服务器
+   var url = config.RequestAddressPrefix2 + '/weixin/survey/api/v1/live/photo/upload'
+   const uploadTask = wx.uploadFile({
+     url: url,
+     filePath: tempFilePath,
+     name: 'photo',
+     header: { "Content-Type": "multipart/form-data" },
+     success: function (res) {
+       var nowTime = new Date();
+
+       wx.hideLoading();
+       // getApp().data.LoadingtakePhone = false;
+       res.data = JSON.parse(res.data);
+
+       res.data.data.imgurl = 'img';
+       res.data.data.latitude = getApp().data.latitude;
+       res.data.data.longitude = getApp().data.longitude
+       res.data.data.source = 'wechat';
+       var data = JSON.stringify(res.data.data)
+       console.log("图片保保存成功:" + data);
+       //发送im
+       sendCustomMsgtext(data);
+     },
+     fail: function (error) {
+       console.error("图片保存出错")
+       console.warn(error)
+     },
+     complete: function () {
+     }
+   })
  }
 //处理消息（私聊(包括普通消息和全员推送消息)，普通群(非直播聊天室)消息）
 function handlderMsg(msg) {

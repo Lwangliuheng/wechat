@@ -6,7 +6,7 @@
 	"appid": "wx1dd9515a80f6187d",
 	"projectname": "wechat1.0.1",
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": false,
@@ -41,6 +41,12 @@
 				{
 					"id": -1,
 					"name": "upDate",
+					"pathName": "pages/main/main",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "updata",
 					"pathName": "pages/main/main",
 					"query": ""
 				}

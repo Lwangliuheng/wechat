@@ -6,7 +6,7 @@
     <live-pusher
       id="rtcpusher"
       autopush='true'
-      mode="RTC"
+      mode="SD"
       orientation="horizontal"
       url="{{pushURL}}"
       aspect="{{config.aspect}}"
@@ -31,9 +31,9 @@
       <cover-view class="loadingBox" wx:if="{{showLoading}}">
             <cover-image class="loadingImg" src='../Resources/linking.png'/> 
       </cover-view>
-       <cover-view class="loadingtaking" wx:if="{{LoadingtakePhone}}">
+        <!-- <cover-view class="loadingtaking" wx:if="{{LoadingtakePhone}}">
             <cover-image class="takingImg" src='../Resources/takephoneing.png'/>
-      </cover-view>
+      </cover-view>  -->
     </live-pusher>  
    
     <!-- <camera id='myc' flash='on' device-position='back' binderror="error"> </camera> -->
