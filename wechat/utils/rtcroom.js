@@ -331,6 +331,57 @@ function sendRoomTextMsg(options) {
 	});
 }
 
+
+function wetrtcMergePushers(ret) {
+  /**
+         * enterPushers：新进推流人员信息
+         * leavePushers：退出推流人员信息
+         * ishave：用于判断去重操作
+         */
+  var enterPushers = [], leavePushers = [], ishave = 0;
+  console.log('去重操作');
+  console.log('旧', roomInfo.pushers);
+  console.log('新', ret.pushers);
+  ret.pushers.forEach(function (val1) {
+    ishave = 0;
+    roomInfo.pushers.forEach(function (val2) {
+      console.log("成员比较：" + val2.userID + ";" + val1.userID);
+      if (val1.userID == val2.userID) {
+        ishave = 1;
+      }
+    });
+    console.log("ishave:" + ishave);
+    if (!ishave)
+      enterPushers.push(val1);
+    ishave = 0;
+  });
+  roomInfo.pushers.forEach(function (val1) {
+    ishave = 0;
+    ret.pushers.forEach(function (val2) {
+      if (val1.userID == val2.userID) {
+        ishave = 1;
+      }
+    });
+    if (!ishave)
+      leavePushers.push(val1);
+    ishave = 0;
+  });
+  // 重置roomInfo.pushers
+  roomInfo.pushers = ret.pushers;
+  // 通知有人进入房间
+  console.log("进入房间的人数:" + enterPushers.length);
+  if (enterPushers.length) {
+    event.onPusherJoin({
+      pushers: enterPushers
+    });
+  }
+  // 通知有人退出房间
+  if (leavePushers.length) {
+    event.onPhserQuit({
+      pushers: leavePushers
+    });
+  }
+}
 /**
  * [mergePushers pushers merge操作]
  * @param {options}
@@ -696,23 +747,26 @@ function proto_createRoom(options) {
       //添加经纬度
       getApp().data.toWebData.latitude = getApp().data.latitude;
       getApp().data.toWebData.longitude = getApp().data.longitude;
-      //创建房间并向web端发送消息
-      toWebData = JSON.stringify(getApp().data.toWebData);
-      
-     console.log("toWebData" + toWebData)
-      webimhandler.sendCustomMsgtext(toWebData)
 			roomInfo.roomID = ret.data.roomID;
       getApp().data.roomID = ret.data.roomID;
-			if(roomInfo.isDestory) {
-				roomInfo.isDestory = false;
-				exitRoom({});
-				return;
-			}
-			// 开始心跳
-			heart = true;
-			pusherHeartBeat(1);
-			console.log('开始IM: ',roomInfo.roomID);
-      options.success()
+      console.log('创建房间成功');
+      console.log("权限位:" + ret.data.privMapEncrypt);
+      //新增 获取roomsign 必须写在客户端 文档要求
+      //xz 创建成功后获取roomsign
+      getRoomSign(roomInfo, ret.data.roomID, accountInfo.userID, ret.data.privMapEncrypt, options);
+
+      
+		// 	if(roomInfo.isDestory) {
+		// 		roomInfo.isDestory = false;
+		// 		exitRoom({});
+		// 		return;
+		// 	}
+		// 	// 开始心跳
+		// 	heart = true;
+		// 	pusherHeartBeat(1);
+		// 	console.log('开始IM: ',roomInfo.roomID);
+    //   options.success()
+    //zdEnd
 			// 进入IM群
 			// webimhandler.applyJoinBigGroup(roomInfo.roomID, afterJoinBigGroup, {
 			// 	success: options.success,
@@ -733,6 +787,79 @@ function proto_createRoom(options) {
 	});
 }
 
+function getRoomSign(roomInfo, roomID, userID, privMapEncrypt, options) {
+  var sdkAppID = accountInfo.sdkAppID;
+  var userSig = accountInfo.userSig;
+  var url = "https://yun.tim.qq.com/v4/openim/jsonvideoapp?sdkappid=" + sdkAppID + "&identifier=" + userID + "&usersig=" + userSig + "&random=9999&contenttype=json";
+  var reqHead = {
+    "Cmd": 1,
+    "SeqNo": 1,
+    "BusType": 7,
+    "GroupId": roomID
+  };
+  var reqBody = {
+    "PrivMapEncrypt": privMapEncrypt,
+    "TerminalType": 1,
+    "FromType": 3,
+    "SdkVersion": 26280566
+  };
+  console.log("传入的权限位：" + privMapEncrypt);
+  console.log("requestSigServer params:", url, reqHead, reqBody);
+  var self = this;
+  wx.request({
+    url: url,
+    data: {
+      "ReqHead": reqHead,
+      "ReqBody": reqBody
+    },
+    method: "POST",
+    success: function (res) {
+      console.log("获取房间签名成功:", res);
+      pushStreamWebRTC(roomInfo, res, options);
+    },
+    fail: function (res) {
+      console.log("获取房间签名失败:", res);
+      wx.showToast({
+        title: '获取房间签名失败',
+      })
+    }
+  })
+}
+function pushStreamWebRTC(roomInfo, res, options) {
+  var sdkAppID = accountInfo.sdkAppID;
+  var roomID = roomInfo.roomID;
+  var userID = accountInfo.userID;
+  if (res.data["RspHead"]["ErrorCode"] != 0) {
+    console.log(res.data["RspHead"]["ErrorInfo"]);
+    wx.showToast({
+      title: res.data["RspHead"]["ErrorInfo"],
+    })
+    return;
+  }
+  var roomSig = JSON.stringify(res.data["RspBody"]);
+  console.log("房间签名：" + roomSig);
+  var pushUrl = "room://cloud.tencent.com?sdkappid=" + sdkAppID + "&roomid=" + roomID + "&userid=" + userID + "&roomsig=" + encodeURIComponent(roomSig);
+  console.log("房间签名信息:", roomID, userID, roomSig, pushUrl);
+
+  //创建房间并向web端发送消息
+  //发送im通知pc端房间创建成功
+  toWebData = JSON.stringify(getApp().data.toWebData);
+  console.log("toWebData" + toWebData);
+  webimhandler.sendCustomMsgtext(toWebData);
+
+  options.success && options.success({
+    webRTCpushURL: pushUrl,
+    code: 0
+  });
+
+}
+
+
+function pusherHeartbeat() {
+  roomInfo.isDestory = false;
+  heart = true;
+  pusherHeartBeat(1);
+}
 /**
  * [joinPusher 加入推流]
  * @param {options}
@@ -877,6 +1004,48 @@ function enterRoom(options) {
 	});
 }
 
+
+function enterWebrtcRoom(options) {
+  console.log("加入房间......" + options.data.roomid);
+  var self = this;
+  roomInfo.roomID = options.data.roomid;
+  request({
+    url: 'add_pusher',
+    data: {
+      roomID: roomInfo.roomID,
+      userID: accountInfo.userID,
+      userName: accountInfo.userName,
+      userAvatar: accountInfo.userAvatar,
+      pushURL: "no rtmp url"
+    },
+    success: function (res) {
+      console.log("加入房间成功..." + JSON.stringify(res));
+      //success && success(res);
+      if (res.data.code == 0) {
+        console.log("权限位:" + res.data.privMapEncrypt);
+        //新增 获取roomsign 必须写在客户端 文档要求
+        console.log("房间ID：" + roomInfo.roomID);
+        console.log("用户ID：" + accountInfo.userID);
+        getRoomSign(roomInfo, roomInfo.roomID, accountInfo.userID, res.data.privMapEncrypt, options);
+      } else {
+        options.success && options.success({
+          code: 3
+        });
+      }
+    },
+    fail: function (ret) {
+      console.log('加入房间失败:', ret);
+      if (ret.errMsg == 'request:fail timeout') {
+        var errCode = -1;
+        var errMsg = '网络请求超时，请检查网络状态';
+      }
+      options.fail && options.fail({
+        errCode: errCode || -4,
+        errMsg: errMsg || '加入房间失败'
+      });
+    }
+  })
+}
 /**
  * [clearRequest 中断请求]
  * @param {options}
@@ -945,6 +1114,10 @@ module.exports = {
 	createRoom: createRoom,				// 创建房间
 	enterRoom: enterRoom,				// 加入房间
 	joinPusher: joinPusher,				// 加入推流
+  getRoomSign: getRoomSign,
+  pushStreamWebRTC: pushStreamWebRTC,
+  pusherHeartbeat: pusherHeartbeat,
+  wetrtcMergePushers: wetrtcMergePushers,
 	exitRoom: exitRoom,					// 退出房间
 	sendRoomTextMsg: sendRoomTextMsg,	// 发送文本消息
 	setListener: setListener		// 设置监听事件

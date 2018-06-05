@@ -7,7 +7,7 @@ var flag = true,codeStatuse = '';
 Component({
   properties: {
     // 房间id
-    roomid: { type: String, value: '' },
+    roomid: { type: Number, value: '' },
     // 房间名称
     roomname: { type: String, value: 'roomname' },
     // 用户名称
@@ -83,7 +83,16 @@ Component({
       this.setData({
         username: this.data.username
       });
-      this.getPushURL();
+      console.log("初始化时房间号：" + this.data.roomid);
+      //设置rtm事件监听
+      this.setListener();
+      if (this.data.roomid != 0) {
+        this.data.role == 'enter'
+        this.enterRoom();
+      } else {
+        this.data.role == 'create'
+        this.createRoom();
+      }
     },
     //解綁坐席狀態
     dismiss: function () {
@@ -156,12 +165,50 @@ Component({
       });
     },
     // 进入房间
+    // enterRoom: function () {
+    //   var self = this;
+    //   rtcroom.enterRoom({
+    //     data: { roomID: self.data.roomid },
+    //     success: function () { },
+    //     fail: function (ret) {
+    //       // 触发外部事件
+    //       self.triggerEvent('notify', {
+    //         type: 'onFail',
+    //         errCode: ret.errCode,
+    //         errMsg: ret.errMsg
+    //       }, {});
+    //     }
+    //   });
+    // },
+    // 进入房间No
     enterRoom: function () {
       var self = this;
-      rtcroom.enterRoom({
-        data: { roomID: self.data.roomid },
-        success: function () { },
+      console.log("加入房间的房间ID：" + self.data.roomid);
+
+      rtcroom.enterWebrtcRoom({
+        data: {
+          roomid: self.data.roomid
+        },
+        success: function (ret) {
+          // 创建房间成功之后操作
+          if (ret.code == 0) {
+            console.log("加入房间成功后获得到的推流地址：" + ret.webRTCpushURL);
+
+            self.setData({
+              pushURL: ret.webRTCpushURL
+            })
+
+            rtcroom.pusherHeartbeat();
+
+            wx.hideLoading();
+          } else {
+            wx.showToast({
+              title: '房间不存在',
+            })
+          }
+        },
         fail: function (ret) {
+          wx.hideLoading();
           // 触发外部事件
           self.triggerEvent('notify', {
             type: 'onFail',
@@ -170,6 +217,22 @@ Component({
           }, {});
         }
       });
+
+      // rtcroom.enterWebrtcRoom( self.data.roomid,
+      //   function (res) {
+      //     console.log("进入房间方法enterRoom：" + res.data.privMapEncrypt);
+
+      //   },
+      //   function (res) {
+      //     console.error(self.data.ERROR_CREATE_ROOM, '进入房间失败[' + res.errCode + ';' + res.errMsg + ']')
+      //     self.onRoomEvent({
+      //       detail: {
+      //         tag: 'error',
+      //         code: -999,
+      //         detail: '进入房间失败[' + res.errCode + ';' + res.errMsg + ']'
+      //       }
+      //     })
+      //   });
     },
     changeLingkLoading: function(){
       var self = this;
@@ -220,6 +283,17 @@ Component({
           // 创建房间成功之后操作
           // wx.hideLoading();
           // self.setData({ showLoading: false });
+
+          // 创建房间成功之后操作
+          console.log("创建房间成功后获得到的推流地址：" + ret.webRTCpushURL);
+
+          self.setData({
+            pushURL: ret.webRTCpushURL
+          })
+          //开始心跳
+          rtcroom.pusherHeartbeat();
+          
+          wx.hideLoading();
         },
         fail: function (ret) {
           // wx.hideLoading();
@@ -254,24 +328,26 @@ Component({
       } else {
         code = e;
       }
+      //待定
       if (flag) {
         flag = false;
         this.init();
       }
+
       getApp().globalData.changeCamera();
       console.log('推流情况：', code); 
       codeStatuse = code;
       switch (code) {
         case 1002: {
         
-          if (!self.data.isInRoom) {
-            self.setData({ isInRoom: true });
-            if (self.data.role == 'enter') {
-              self.joinPusher();
-            } else {
-              self.createRoom();
-            }
-          }
+          // if (!self.data.isInRoom) {
+          //   self.setData({ isInRoom: true });
+          //   if (self.data.role == 'enter') {
+          //     self.joinPusher();
+          //   } else {
+          //     self.createRoom();
+          //   }
+          // }
           break;
         }
         case -1301: {
@@ -324,10 +400,125 @@ Component({
           }, {});
           break;
         }
+        case 1018:
+          {
+            console.log('进房成功', code);
+            break;
+          }
+        case 1019:
+          {
+            console.log('退出房间', code);
+            break;
+          }
+        //可以获取成员列表
+        case 1020:
+          {
+            console.log('成员列表', code);
+            self.onWebRTCUserListPush(e.detail.message);
+            break;
+          }
+        case 1021:
+          {
+            console.log('网络类型发生变化，需要重新进房', code);
+            //先退出房间
+            self.exitRoom();
+
+            //再重新进入房间
+            this.setData({
+              retryIndex: 5,
+            })
+            self.enterRoom();
+
+            break;
+          }
+        case 2007:
+          {
+            console.log('视频播放loading: ', e.detail.code);
+            break;
+          };
+        case 2004:
+          {
+            console.log('视频播放开始: ', e.detail.code);
+            break;
+          };
         default: {
           // console.log('推流情况：', code);
         }
       }
+    },
+    //xz 对拉流地址进行处理
+    onWebRTCUserListPush: function (msg) {
+      var self = this;
+
+      if (!msg) {
+        return;
+      }
+
+      var jsonDic = JSON.parse(msg);
+      if (!jsonDic) {
+        return;
+      }
+
+      console.log("onWebRTCUserListPush.jsonDict:", jsonDic);
+      var newUserList = jsonDic.userlist;
+      if (!newUserList) {
+        return;
+      }
+
+      var pushers = [];
+      newUserList && newUserList.forEach(function (val) {
+        var pusher = {
+          userID: val.userid,
+          accelerateURL: val.playurl
+        };
+        pushers.push(pusher);
+      });
+
+      self.onWebrtcPusherJoin({
+        pushers: pushers
+      });
+
+      self.onWebrtcPusherQuit({
+        pushers: pushers
+      });
+    },
+    //xz 对拉流地址进行处理
+    //将在res.pushers中，但不在self.data.members中的流，加入到self.data.members中
+    onWebrtcPusherJoin: function (res) {
+      rtcroom.wetrtcMergePushers(res);
+    },
+    //xz 对拉流地址进行处理
+    //将在self.data.members中，但不在res.pushers中的流删除
+    onWebrtcPusherQuit: function (res) {
+      var self = this;
+      for (var i = 0; i < self.data.members.length; i++) {
+        var needDelete = true;
+        for (var j = 0; j < res.pushers.length; j++) {
+          if (self.data.members[i].userID == res.pushers[j].userID) {
+            needDelete = false;
+          }
+        }
+        if (needDelete) {
+          self.data.members[i] = {};
+        }
+      }
+      self.setData({
+        members: self.data.members
+      });
+
+
+    },
+
+    delWebrtcPusher: function (pusher) {
+      var self = this;
+      for (var i = 0; i < self.data.members.length; i++) {
+        if (self.data.members[i].userID == pusher.userID) {
+          self.data.members[i] = {};
+        }
+      }
+      self.setData({
+        members: self.data.members
+      });
     },
     // 标签错误处理
     onError: function(e) {
