@@ -84,6 +84,16 @@ Component({
         username: this.data.username
       });
       console.log("初始化时房间号：" + this.data.roomid);
+      //解绑坐席状态
+      var self = this;
+      setTimeout(function () {
+        if (codeStatuse == '') {
+          self.dismiss()
+          wx.navigateBack({
+            delta: 1
+          })
+        }
+      }, 5000) 
       //设置rtm事件监听
       this.setListener();
       if (this.data.roomid != 0) {
@@ -94,7 +104,7 @@ Component({
         this.createRoom();
       }
     },
-    //解綁坐席狀態
+    //解綁坐席狀態？？？？
     dismiss: function () {
       var data = {
         "surveyNo": getApp().data.toWebData.orderData.surveyNo
