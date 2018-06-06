@@ -84,16 +84,7 @@ Component({
         username: this.data.username
       });
       console.log("初始化时房间号：" + this.data.roomid);
-      //解绑坐席状态
-      // var self = this;
-      // setTimeout(function () {
-      //   if (codeStatuse == '') {
-      //     self.dismiss()
-      //     wx.navigateBack({
-      //       delta: 1
-      //     })
-      //   }
-      // }, 5000) 
+      
       //设置rtm事件监听
       this.setListener();
       if (this.data.roomid != 0) {
@@ -300,6 +291,15 @@ Component({
           self.setData({
             pushURL: ret.webRTCpushURL
           })
+          //解绑坐席状态
+          setTimeout(function () {
+            if (codeStatuse == '') {
+              self.dismiss()
+              wx.navigateBack({
+                delta: 1
+              })
+            }
+          }, 5000) 
           // console.log(ret.webRTCpushURL,"设置推流地址")
           // console.log(self.data.pushURL, "设置推流地址")
           //开始心跳

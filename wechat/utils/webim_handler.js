@@ -89,7 +89,8 @@ function compareVersion(v1, v2) {
        getApp().data.changeLingkLoading == true;
      }
      if (dataString == 'WEB$$goToConnection'){//接受視頻鏈接
-       getApp().globalData.mergePushers();
+     //获取拉流地址
+      //  getApp().globalData.mergePushers();
        getApp().data.changeLingkLoading = false;
      }
      if (dataString == 'WEB$$takePic') {//拍照

@@ -21,7 +21,7 @@
       bindstatechange="onPush"
       binderror="onError">
       <cover-view class="playPhonetext" wx:if="{{!showLoading}}">
-             <!-- <cover-image class="PhonetextImg" src='../Resources/PhonetextImg.png'/>  -->
+              <cover-image class="PhonetextImg" src='../Resources/PhonetextImg.png'/>  
       </cover-view>
       <cover-view class="play" wx:if="{{!showLoading}}">
           <cover-view class='playBox'>
@@ -29,7 +29,7 @@
           </cover-view>
       </cover-view>
       <cover-view class="loadingBox" wx:if="{{showLoading}}">
-            <!-- <cover-image class="loadingImg" src='../Resources/linking.png'/>  -->
+             <cover-image class="loadingImg" src='../Resources/linking.png'/>  
       </cover-view>
         <!-- <cover-view class="loadingtaking" wx:if="{{LoadingtakePhone}}">
             <cover-image class="takingImg" src='../Resources/takephoneing.png'/>
