@@ -365,21 +365,21 @@ console.log(77777)
    */
   onReady: function () {
     var self = this;
-    if (!self.data.username) {
-      wx.showModal({
-        title: '提示',
-        content: '登录信息还未获取到，请稍后再试',
-        showCancel: false,
-        complete: function () {
-          var pages = getCurrentPages();
-          console.log(pages, pages.length, pages[pages.length - 1].__route__);
-          if (pages.length > 1 && (pages[pages.length - 1].__route__ == 'pages/doubleroom/room/room')) {
-            wx.navigateBack({ delta: 1 });
-          }
-        }
-      });
-      return;
-    }
+    // if (!self.data.username) {
+    //   wx.showModal({
+    //     title: '提示',
+    //     content: '登录信息还未获取到，请稍后再试',
+    //     showCancel: false,
+    //     complete: function () {
+    //       var pages = getCurrentPages();
+    //       console.log(pages, pages.length, pages[pages.length - 1].__route__);
+    //       if (pages.length > 1 && (pages[pages.length - 1].__route__ == 'pages/doubleroom/room/room')) {
+    //         wx.navigateBack({ delta: 1 });
+    //       }
+    //     }
+    //   });
+    //   return;
+    // }
     // 设置房间标题
     //wx.setNavigationBarTitle({ title: self.data.roomname });
   },

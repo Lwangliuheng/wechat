@@ -119,6 +119,7 @@ Page({
             console.log(res.data.data.roomID)
             getApp().data.IMAccount = res.data.data.customerServiceImAccount;
             getApp().data.toWebData = res.data.data;
+            console.log(getApp().data.toWebData,"getApp().data.toWebData");
             var url = '../../doubleroom/room/room?type=create&roomName=' + self.data.roomName + '&userName=' + self.data.userName;
             wx.navigateTo({
               url: url

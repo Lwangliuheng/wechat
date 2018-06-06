@@ -104,7 +104,8 @@ function init(options) {
 		return;
 	}
 	serverDomain = options.data.serverDomain;
-	accountInfo.userID = options.data.userID+'wechatId11';
+	//accountInfo.userID = options.data.userID+'wechatId11';
+  accountInfo.userID = options.data.userID;
   accountInfo.imUserId = options.data.userID
   console.log("校验token:"+accountInfo.userSig);
   console.log("服务器返回校验token:" + options.data.userSig);
@@ -472,6 +473,8 @@ function pusherHeartBeat(options) {
 }
 function proto_pusherHeartBeat(){
 	console.log('心跳请求');
+  console.log(roomInfo.roomID,"心跳");
+  console.log(accountInfo.userID, "心跳")
 	request({
 		url: 'pusher_heartbeat',
 		data: {
@@ -703,14 +706,14 @@ function setListener(options) {
  */
 function createRoom(options) {
 	roomInfo.isDestory = false;
-	if(!options || !options.data.roomName || !options.data.pushURL) { 
-		console.log('createRoom参数错误',options); 
-		options.fail && options.fail({
-			errCode: -9,
-			errMsg: 'createRoom参数错误'
-		});
-		return; 
-	}
+	// if(!options || !options.data.roomName || !options.data.pushURL) { 
+	// 	console.log('createRoom参数错误',options); 
+	// 	options.fail && options.fail({
+	// 		errCode: -9,
+	// 		errMsg: 'createRoom参数错误'
+	// 	});
+	// 	return; 
+	// }
 	roomInfo.roomName = options.data.roomName;
 	roomInfo.pushers = [];
 
@@ -720,17 +723,22 @@ function createRoom(options) {
 
 function proto_createRoom(options) {
   console.log(getApp().data.toWebData.orderData.surveyNo);
-
+  console.log(accountInfo.userID, "userID");
+  console.log(roomInfo.roomName, "roomName");
+  console.log(accountInfo.userName, "userName");
+  console.log(accountInfo.userAvatar, "userAvatar");;
+  console.log(options.data.pushURL, "pushURL");
+  console.log(getApp().data.toWebData.videoRoomId, "roomid");
 	request({
 		url: 'create_room',
 		data: {
 			userID: accountInfo.userID,
       // userID: accountInfo.userID,
-			roomName: roomInfo.roomName,
+      roomName: "123124",
 			userName: accountInfo.userName,
 			userAvatar: accountInfo.userAvatar,
 			pushURL: options.data.pushURL,
-      roomid: getApp().data.toWebData.orderData.surveyNo
+      roomid: Number(getApp().data.toWebData.videoRoomId)
 		},
 		success: function(ret) {
 			if(ret.data.code) {
@@ -747,7 +755,7 @@ function proto_createRoom(options) {
       //添加经纬度
       getApp().data.toWebData.latitude = getApp().data.latitude;
       getApp().data.toWebData.longitude = getApp().data.longitude;
-			roomInfo.roomID = ret.data.roomID;
+			roomInfo.roomID = Number(ret.data.roomID);
       getApp().data.roomID = ret.data.roomID;
       console.log('创建房间成功');
       console.log("权限位:" + ret.data.privMapEncrypt);
@@ -790,6 +798,11 @@ function proto_createRoom(options) {
 function getRoomSign(roomInfo, roomID, userID, privMapEncrypt, options) {
   var sdkAppID = accountInfo.sdkAppID;
   var userSig = accountInfo.userSig;
+  // console.log(roomID,"roomID")
+  // console.log(userID,"userID")
+  // console.log(sdkAppID, "sdkAppID")
+  // console.log(userSig, "userSig")
+  
   var url = "https://yun.tim.qq.com/v4/openim/jsonvideoapp?sdkappid=" + sdkAppID + "&identifier=" + userID + "&usersig=" + userSig + "&random=9999&contenttype=json";
   var reqHead = {
     "Cmd": 1,
@@ -840,7 +853,9 @@ function pushStreamWebRTC(roomInfo, res, options) {
   console.log("房间签名：" + roomSig);
   var pushUrl = "room://cloud.tencent.com?sdkappid=" + sdkAppID + "&roomid=" + roomID + "&userid=" + userID + "&roomsig=" + encodeURIComponent(roomSig);
   console.log("房间签名信息:", roomID, userID, roomSig, pushUrl);
-
+   
+  //开始心跳
+  pusherHeartbeat();
   //创建房间并向web端发送消息
   //发送im通知pc端房间创建成功
   toWebData = JSON.stringify(getApp().data.toWebData);
