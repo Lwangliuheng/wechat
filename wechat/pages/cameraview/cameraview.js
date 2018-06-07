@@ -341,10 +341,10 @@ Component({
         code = e;
       }
       //待定
-      if (flag) {
-        flag = false;
-        this.init();
-      }
+      // if (flag) {
+      //   flag = false;
+      //   this.init();
+      // }
 
       getApp().globalData.changeCamera();
       console.log('推流情况：', code); 
