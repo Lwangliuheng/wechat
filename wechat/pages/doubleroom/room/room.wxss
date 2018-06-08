@@ -78,6 +78,14 @@ live-player {
   left: 0;
   bottom: 0;
 }
+/* live-player {
+  width: 49vw;
+  height: 65.33vw; 
+  position: fixed;
+  top:0px;
+  left:0px;
+  z-index: 2000000;
+} */
 .character {
   position: absolute;
   left: 0;
