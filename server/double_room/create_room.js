@@ -3,6 +3,7 @@ const roommgr = require('../logic/double_room_mgr')
 const immgr = require('../logic/im_mgr')
 const liveutil = require('../logic/live_util')
 const log = require('../log')
+const webrtc = require('../logic/WebRTCSigApi')
 
 module.exports = async (ctx, next) => {
   if (!ctx.request.body ||
@@ -10,9 +11,9 @@ module.exports = async (ctx, next) => {
     !ctx.request.body.userID ||
     !ctx.request.body.userName ||
     !ctx.request.body.userAvatar ||
-    !ctx.request.body.pushURL ||
     !ctx.request.body.roomid ) {
     ctx.body = roommgr.getErrMsg(1);
+   
     log.logErrMsg(ctx, ctx.body.message, 0);
     return;
   }
@@ -56,6 +57,10 @@ module.exports = async (ctx, next) => {
 
   var ret = roommgr.getErrMsg(0);
   ret.roomID = roomID;
+  console.log("参数："+ctx.request.body.userID+";"+roomID);
+
+  ret.privMapEncrypt = webrtc.genPrivMapEncrypt(ctx.request.body.userID, roomID,60*60);
+  console.log("服务器端生成：" + ret.privMapEncrypt);
   ctx.body = ret;
   log.logResponse(ctx, 0);
 }

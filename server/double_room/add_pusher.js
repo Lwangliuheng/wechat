@@ -3,6 +3,7 @@ const roommgr = require('../logic/double_room_mgr')
 const immgr = require('../logic/im_mgr')
 const liveutil = require('../logic/live_util')
 const log = require('../log')
+const webrtc = require('../logic/WebRTCSigApi')
 
 module.exports = async (ctx, next) => {
   if (!ctx.request.body ||
@@ -13,6 +14,16 @@ module.exports = async (ctx, next) => {
     !ctx.request.body.pushURL) {
     ctx.body = roommgr.getErrMsg(1);
     log.logErrMsg(ctx, ctx.body.message, 0);
+    return;
+  }
+
+  if (!roommgr.isRoomExist(ctx.request.body.roomID)){
+    console.log("房间不存在");
+    var err_ret = {};
+    err_ret.code = 3;
+    err_ret.message = roommgr.getErrMsg(3);
+    ctx.body = err_ret;
+    log.logErrMsg(ctx, err_ret.message, 0);
     return;
   }
 
@@ -58,6 +69,8 @@ module.exports = async (ctx, next) => {
 
 
   var ret = roommgr.getErrMsg(0);
+  ret.privMapEncrypt = webrtc.genPrivMapEncrypt(ctx.request.body.userID, ctx.request.body.roomID, 60 * 60);
+  console.log("进入房间服务器:" + ret.privMapEncrypt);
   ctx.body = ret;
   log.logResponse(ctx, 0);
 }

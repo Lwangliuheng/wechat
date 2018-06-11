@@ -186,10 +186,11 @@ function getStreamStatus(streamid,success,fail) {
 
 /**
  * 房间操作接口 - isRoomExist 判断房间是否存在
+ * 这里需要将房间号(字符串)转换为数字
  */
 function isRoomExist(roomID) {
   for (i in rooms) {
-    if (rooms[i].roomID === roomID) {
+    if (+rooms[i].roomID === roomID) {
       return true;
     }
   }
@@ -296,7 +297,7 @@ function updateRoomName(roomID, roomName) {
  */
 function isMember(roomID, userID) {
   for (i in rooms) {
-    if (rooms[i].roomID == roomID) {
+    if (+rooms[i].roomID == roomID) {
       for (j in rooms[i].pushers) {
         if (rooms[i].pushers[j].userID == userID) {
           return true;
@@ -324,7 +325,7 @@ function getMemberCnt(roomID) {
  */
 function addMember(roomID, userID, userName, userAvatar, pushURL, accelerateURL) {
   for (i in rooms) {
-    if (rooms[i].roomID == roomID) {
+    if (+rooms[i].roomID == roomID) {
       var pusher = {};
       pusher.userID = userID;
       pusher.userName = userName;
@@ -350,7 +351,7 @@ function delMember(roomID, userID) {
   }
   else if (isMember(roomID, userID)) {
     for (i in rooms) {
-      if (rooms[i].roomID == roomID) {
+      if (+rooms[i].roomID == roomID) {
         for (var j = 0; j < rooms[i].pushers.length; j++) {
           if (rooms[i].pushers[j].userID == userID) {
             rooms[i].pushers.splice(j, 1);
@@ -404,10 +405,14 @@ function updateMemberTS(roomID, userID) {
  * withmemebers 是否返回房间成员列表
  */
 function getRoomList(cnt, startpos, withpushers) {
+  console.log("获取房间列表cnt："+cnt);
+  console.log("获取房间列表startpos：" + startpos);
+  console.log("获取房间列表withpushers：" + withpushers);
   var ret = []
   var count = 0;
   if (withpushers) {
     for (i in rooms) {
+      console.log("获取房间列表getMemberCnt：" + getMemberCnt(rooms[i].roomID));
       if (getMemberCnt(rooms[i].roomID) <= 2 && i >= startpos) {
         var room = {};
         room.roomID = rooms[i].roomID;
@@ -425,6 +430,7 @@ function getRoomList(cnt, startpos, withpushers) {
         }
         room.pushers = pushers;
         ret.push(room);
+        console.log("获取房间列表count：" + count);
         count++;
         if (count == cnt) {
           break;
@@ -432,7 +438,9 @@ function getRoomList(cnt, startpos, withpushers) {
       }
     }
   } else {
+    console.log("获取房间列表rooms：" + rooms);
     for (i in rooms) {
+      console.log("获取房间列表rooms(getMemberCnt)：" + getMemberCnt(rooms[i].roomID));
       if (getMemberCnt(rooms[i].roomID) <= 2 && i >= startpos) {
         var simpleroom = {};
         simpleroom.roomID = rooms[i].roomID;
@@ -440,13 +448,17 @@ function getRoomList(cnt, startpos, withpushers) {
         simpleroom.roomCreator = rooms[i].roomCreator;
         simpleroom.mixedPlayURL = rooms[i].mixedPlayURL;
         ret.push(simpleroom);
+
+        console.log("获取房间列表rooms(count)：" + count);
         count++;
+        
         if (count == cnt) {
           break;
         }
       }
     }
   }
+  console.log("房间个数："+ret.length);
   return ret;
 }
 
