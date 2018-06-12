@@ -202,7 +202,7 @@ function isRoomExist(roomID) {
  */
 function isRoomCreator(roomID, userID) {
   for (i in rooms) {
-    if (rooms[i].roomID === roomID && rooms[i].roomCreator == userID) {
+    if (+rooms[i].roomID === +roomID && rooms[i].roomCreator == userID) {
       return true;
     }
   }
@@ -244,7 +244,7 @@ function addRoom(roomID, roomName, userID, mixedURL, userName, userAvatar, pushU
  */
 function delRoom(roomID) {
   for (i in rooms) {
-    if (rooms[i].roomID == roomID) {
+    if (+rooms[i].roomID == +roomID) {
       rooms.splice(i, 1);
       return true;
     }
@@ -297,7 +297,7 @@ function updateRoomName(roomID, roomName) {
  */
 function isMember(roomID, userID) {
   for (i in rooms) {
-    if (+rooms[i].roomID == roomID) {
+    if (+rooms[i].roomID == +roomID) {
       for (j in rooms[i].pushers) {
         if (rooms[i].pushers[j].userID == userID) {
           return true;
@@ -351,7 +351,7 @@ function delMember(roomID, userID) {
   }
   else if (isMember(roomID, userID)) {
     for (i in rooms) {
-      if (+rooms[i].roomID == roomID) {
+      if (+rooms[i].roomID == +roomID) {
         for (var j = 0; j < rooms[i].pushers.length; j++) {
           if (rooms[i].pushers[j].userID == userID) {
             rooms[i].pushers.splice(j, 1);
@@ -388,7 +388,7 @@ function updateMember(roomID, userID, userName, userAvatar, pushURL, accelerateU
  */
 function updateMemberTS(roomID, userID) {
   for (i in rooms) {
-    if (rooms[i].roomID == roomID) {
+    if (+rooms[i].roomID == +roomID) {
       for (var j = 0; j < rooms[i].pushers.length; j++) {
         if (rooms[i].pushers[j].userID == userID) {
           rooms[i].pushers[j].timestamp = getTimeStamp();

@@ -70,6 +70,7 @@ App({
     latitude: "",
     longitude:"",
     selectName:"",//车牌号
-    insuranceCompanyList:"" 
+    insuranceCompanyList:"" ,
+    twoWayVideoStatus:false
   } 
 })
