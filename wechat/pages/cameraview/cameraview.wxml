@@ -6,7 +6,7 @@
     <live-pusher
       id="rtcpusher"
       autopush='true'
-      mode="SD"
+      mode="RTC"
       orientation="horizontal"
       url="{{pushURL}}"
       aspect="{{config.aspect}}"

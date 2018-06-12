@@ -37,6 +37,7 @@
             object-fit="fillCrop"
             min-cache="0.1"
             max-cache="0.3"
+            orientation="horizontal"
             src="{{member.accelerateURL}}" 
             debug="{{config.debug}}"
             background-mute="{{true}}"

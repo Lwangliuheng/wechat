@@ -190,7 +190,7 @@ function getStreamStatus(streamid,success,fail) {
  */
 function isRoomExist(roomID) {
   for (i in rooms) {
-    if (+rooms[i].roomID === roomID) {
+    if (+rooms[i].roomID === +roomID) {
       return true;
     }
   }

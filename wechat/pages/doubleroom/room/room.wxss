@@ -69,23 +69,27 @@
   background:#333;
 }
 
-live-player {
+/* live-player { */
   /* width: 49vw;
   height: 65.33vw; */
-  width: 0.10px;
+  /* width: 0.10px;
 	height: 0.10px; 
   position: absolute;
   left: 0;
   bottom: 0;
-}
-/* live-player {
-  width: 49vw;
-  height: 65.33vw; 
+} */
+ live-player {
+  width: 65.33vw;
+  height: 49vw; 
   position: fixed;
   top:0px;
-  left:0px;
+  right:0px;
+  transform:rotate(-90deg);
+  /* transform: rotate(-90deg); */
+  /* transform-origin: left top; */
   z-index: 2000000;
-} */
+
+} 
 .character {
   position: absolute;
   left: 0;
