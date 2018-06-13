@@ -30,6 +30,7 @@
         <view class="player-box"> 
         <!-- <view class='poster'></view>     -->
           <live-player
+            class="{{videoStatus}}"
             id="rtcplayer"
             autoplay
             mode="RTC"

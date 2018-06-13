@@ -71,6 +71,6 @@ App({
     longitude:"",
     selectName:"",//车牌号
     insuranceCompanyList:"" ,
-    twoWayVideoStatus:false
+    twoWayVideoStatus:0
   } 
 })

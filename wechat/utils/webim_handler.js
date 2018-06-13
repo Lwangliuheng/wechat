@@ -97,6 +97,14 @@ function compareVersion(v1, v2) {
       //  getApp().data.takePhone = 'WEB$$takePic';
        takePhone();
      }
+     if (dataString == 'WEB$$openRemoteWindow') {//开启双向视频
+       console.log('WEB$$openRemoteWindow')
+       getApp().data.twoWayVideoStatus = 1;
+     }
+     if (dataString == 'WEB$$closeRemoteWindow') {//关闭双向视频
+       console.log('WEB$$closeRemoteWindow')
+       getApp().data.twoWayVideoStatus = 2;
+     }
      if (dataString == 'hangup'){//收到对方挂断
        wx.navigateBack({
          delta: 1

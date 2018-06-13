@@ -1085,7 +1085,7 @@ function exitRoom(options) {
 	if(roomInfo.isDestory) return;
 	roomInfo.isDestory = true;
 	request({
-		url: 'delete_pusher',
+		url: 'destroy_room',
 		data: {
 			roomID: roomInfo.roomID,
 			userID: accountInfo.userID

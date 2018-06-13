@@ -236,7 +236,24 @@ Component({
       //   });
     },
     changeLingkLoading: function(){
+      console.log(getApp().data.twoWayVideoStatus,"getApp().data.twoWayVideoStatus")
       var self = this;
+      if (getApp().data.twoWayVideoStatus  == 1){
+        // 触发外部事件
+        self.triggerEvent('notify', {
+          type: 'onopenVideoStatus',
+          errCode:"",
+          errMsg: ''
+        }, {});
+      };
+      if (getApp().data.twoWayVideoStatus == 2){
+        // 触发外部事件
+        self.triggerEvent('notify', {
+          type: 'oncloseVideoStatus',
+          errCode: "",
+          errMsg: ''
+        }, {});
+      };
       if (getApp().data.changeLingkLoading == false){
         self.setData({ showLoading: false });
       }
@@ -321,6 +338,13 @@ Component({
     },
     // 退出房间
     exitRoom: function() {
+      //关闭双向视频
+      getApp().data.twoWayVideoStatus = 0;
+      this.triggerEvent('notify', {
+        type: 'oncloseVideoStatus',
+        errCode: '',
+        errMsg: ''
+      }, {});
       //退出房间
       var data  = {}
       data.hangup = "hangup"
@@ -643,7 +667,7 @@ Component({
   // 组件实例被从页面节点树移除
   detached: function () {
     getApp().data.changeLingkLoading = true;
-    // clearInterval(this.timer);
+    clearInterval(this.timer);
     console.log('组件实例被从页面节点树移除');
     flag = true;
     this.exitRoom();

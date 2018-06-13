@@ -69,16 +69,16 @@
   background:#333;
 }
 
-/* live-player { */
+ .dlivePlayer{ 
   /* width: 49vw;
   height: 65.33vw; */
-  /* width: 0.10px;
+   width: 0.10px;
 	height: 0.10px; 
   position: absolute;
   left: 0;
   bottom: 0;
-} */
- live-player {
+} 
+ .slivePlayer {
   width: 65.33vw;
   height: 49vw; 
   position: fixed;

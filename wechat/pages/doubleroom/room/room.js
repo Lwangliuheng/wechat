@@ -36,7 +36,8 @@ Page({
 
     toview: '',     // 滚动条位置
     isShow: false,  // 是否显示页面
-    exit: 0
+    exit: 0,
+    videoStatus:"dlivePlayer" //双向视频状态
   },
   /**
    * 通知事件
@@ -235,6 +236,27 @@ Page({
         self.setData({
           toview: 'scroll-bottom'
         });
+        break;
+      }
+      case 'onopenVideoStatus': {
+  
+        var self = this;
+        console.log('打开双向视频')
+       // 打开双向视频
+        self.setData({
+          videoStatus:'slivePlayer'
+        });
+        console.log(self.data.videoStatus)
+        break;
+      }
+      case 'oncloseVideoStatus': {
+        console.log('关闭双向视频')
+        var self = this;
+        // 关闭双向视频
+        self.setData({
+          videoStatus: 'dlivePlayer'
+        });
+        console.log(self.data.videoStatus)
         break;
       }
       case 'onFail': {
