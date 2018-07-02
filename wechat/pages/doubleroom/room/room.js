@@ -239,13 +239,14 @@ Page({
         break;
       }
       case 'onopenVideoStatus': {
-  
+
         var self = this;
         console.log('打开双向视频')
        // 打开双向视频
         self.setData({
           videoStatus:'slivePlayer'
         });
+        getApp().data.twoWayVideoStatus = 0;
         console.log(self.data.videoStatus)
         break;
       }
@@ -256,6 +257,7 @@ Page({
         self.setData({
           videoStatus: 'dlivePlayer'
         });
+        getApp().data.twoWayVideoStatus = 0;
         console.log(self.data.videoStatus)
         break;
       }
